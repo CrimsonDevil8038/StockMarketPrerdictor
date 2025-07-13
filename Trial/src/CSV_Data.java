@@ -71,24 +71,4 @@ class CSV_Data{
         }
     }
 
-//    void data(String path){
-//        File stockfile  = new File(path);
-//        Stock stock = new Stock();
-//            try(BufferedReader bufferedReader = new BufferedReader(new FileReader(stockfile))){
-//                String data = bufferedReader.readLine();
-//
-//                while ((data = bufferedReader.readLine())!= null) {
-//                    String[] data_form = data.split(",");
-//                    for (int i = 0; i < data_form.length; i++) {
-//                        System.out.print(data_form[i]+"\t\t");
-//                    }
-//                    System.out.println();
-//                }
-//
-//            } catch (Exception e) {
-//                System.out.println(e);
-//            }
-//
-//    }
-
 }
