@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="eb47f519-0872-4e25-addb-736a05df58d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/CSV_Manager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/DateFormatter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Stock.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Stock_Data.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/CSV_Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/CSV_Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +94,8 @@
       <workItem from="1752502817042" duration="4954000" />
       <workItem from="1752583261994" duration="7307000" />
       <workItem from="1752591362820" duration="327000" />
-      <workItem from="1752591699337" duration="363000" />
+      <workItem from="1752591699337" duration="3438000" />
+      <workItem from="1752605124622" duration="6248000" />
     </task>
     <servers />
   </component>

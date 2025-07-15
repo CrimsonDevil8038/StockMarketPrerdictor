@@ -5,7 +5,6 @@ public class Test {
 
         CSV_Manager  csvManager = new CSV_Manager();
 
-        csvManager.readCSV("asd","Test_1");
 
     }
 }
