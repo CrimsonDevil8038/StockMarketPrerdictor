@@ -2,13 +2,13 @@ package Stock_Predictor;
 
 public class Stock_Data {
 
-    private String date;
-    private double open;
-    private double high;
-    private double low;
-    private double close;
-    private double volume;
-    private double vwap;
+    private final String date;
+    private final double open;
+    private final double high;
+    private final double low;
+    private final double close;
+    private final double volume;
+    private final double vwap;
 
     public Stock_Data(String date, double open, double high, double low, double close, double volume, double vwap) {
         this.date = date;

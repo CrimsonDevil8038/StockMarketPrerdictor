@@ -9,7 +9,7 @@ class DateFormatter {
         String[] format;
         format = format2.split("[/-]");
         boolean check = checkFormat2(format);
-        if(check) {
+        if (check) {
             int month = 0;
 
             switch (format[1]) {
@@ -64,8 +64,7 @@ class DateFormatter {
             }
             format1 = format[0] + "-" + month + " -" + format[2];
             return format1;
-        }
-        else{
+        } else {
             return "0-0-0000";
         }
     }
@@ -74,19 +73,18 @@ class DateFormatter {
         String format2 = "";
         String[] format;
         format = format1.split("[/-]");
-        int check[] = new int[3];
+        int[] check = new int[3];
         for (int i = 0; i < 3; i++) {
             check[i] = Integer.parseInt(format[i]);
         }
         boolean checkFormat = checkFormat1(check);
-        if(checkFormat){
+        if (checkFormat) {
             String[] months = {"0", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
             String monthName = months[check[1]];
-            format2 = check[0]+"-"+monthName+"-"+check[2];
-            return  format2;
-        }
-        else{
+            format2 = check[0] + "-" + monthName + "-" + check[2];
+            return format2;
+        } else {
             return "0-0-0000";
         }
     }
@@ -170,12 +168,20 @@ class DateFormatter {
             if (month == -1 || year < 1924 || year > 3000) return false;
 
             switch (month) {
-                case 1: case 3: case 5: case 7:
-                case 8: case 10: case 12:
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
                     b = (day >= 1 && day <= 31);
                     break;
 
-                case 4: case 6: case 9: case 11:
+                case 4:
+                case 6:
+                case 9:
+                case 11:
                     b = (day >= 1 && day <= 30);
                     break;
 
@@ -196,19 +202,19 @@ class DateFormatter {
         }
     }
 
-    int toNumberofDays(String start,String end){
-        int numberOfDays= 0;
+    int toNumberofDays(String start, String end) {
+        int numberOfDays = 0;
 
-        String dates[] = check(start,end);
+        String[] dates = check(start, end);
 
-        String[]  startdays;
+        String[] startdays;
         startdays = dates[0].split("[/-]");
 
-        String[]  enddays;
+        String[] enddays;
         enddays = dates[1].split("[/-]");
 
-        int[] sdays =new int[3];
-        int[] edays =new int[3];
+        int[] sdays = new int[3];
+        int[] edays = new int[3];
 
         for (int i = 0; i < 3; i++) {
             sdays[i] = Integer.parseInt(startdays[i]);
@@ -217,18 +223,17 @@ class DateFormatter {
 
         numberOfDays = dateday(edays) - dateday(sdays);
 
-        return  numberOfDays;
+        return numberOfDays;
     }
 
-    String[] check(String start ,String end){
+    String[] check(String start, String end) {
         String startFormat = formatChecker(start);
         String endFormat = formatChecker(end);
 
-        if(startFormat.equalsIgnoreCase("Format1") && endFormat.equalsIgnoreCase("Format1")){
+        if (startFormat.equalsIgnoreCase("Format1") && endFormat.equalsIgnoreCase("Format1")) {
             start = toFormat2(start);
             end = toFormat2(end);
-        }
-        else if(startFormat.equalsIgnoreCase("Format1")){
+        } else if (startFormat.equalsIgnoreCase("Format1")) {
             start = toFormat2(start);
         } else if (endFormat.equalsIgnoreCase("Format1")) {
             end = toFormat2(end);
@@ -237,11 +242,11 @@ class DateFormatter {
         return new String[]{start, end};
     }
 
-    String formatChecker(String formatcheck){
-        try{
+    String formatChecker(String formatcheck) {
+        try {
             String[] dates;
             dates = formatcheck.split("[/-]");
-            int check[] = new int[3];
+            int[] check = new int[3];
             for (int i = 0; i < 3; i++) {
                 check[i] = Integer.parseInt(dates[i]);
             }
@@ -299,23 +304,24 @@ class DateFormatter {
         return countdays;
     }
 
-    int input() {
+    Object[] input() {
         Scanner scanner = new Scanner(System.in);
         int days = 0;
+        String start, end;
         do {
             System.out.println("Enter Start and End Dates\n\t\t(Either in Format:1/1/2001 or 1/Jan/2001 or 1-1-2001 or 1-Jan-2001)");
 
             System.out.println("Enter Start Date");
-            String start = scanner.next();
+            start = scanner.next();
 
             System.out.println("Enter End Date");
-            String end = scanner.next();
+            end = scanner.next();
 
-            days = toNumberofDays(start,end);
+            days = toNumberofDays(start, end);
 
-        }while (days > 0);
+        } while (days > 0);
 
-        return  days;
+        return new Object[]{days, start};
     }
 
 
