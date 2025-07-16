@@ -9,7 +9,7 @@ import java.util.*;
 
 public class CSV_Manager {
 
-    HashMap<String, Stock> stockHashMap = new HashMap<>();
+    private static HashMap<String, Stock> stockHashMap = new HashMap<>();
     DerivedIndicators derivedIndicators = new DerivedIndicators();
 
     void readCSV(String path, String name) {
@@ -94,7 +94,6 @@ public class CSV_Manager {
                 }
             }
         }
-        System.out.println(selectedHeaders);
 
         return  selectedHeaders;
 
@@ -106,6 +105,13 @@ public class CSV_Manager {
                                Double.parseDouble(key_values[5]));
     }
 
-
+    void viewStock(String name){
+        if(stockHashMap.containsKey(name)){
+            stockHashMap.get(name).showStockData();
+        }
+        else{
+            System.out.println("No Data Found");
+        }
+    }
 }
 
