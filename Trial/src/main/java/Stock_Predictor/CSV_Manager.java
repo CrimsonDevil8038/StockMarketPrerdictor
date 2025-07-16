@@ -113,5 +113,14 @@ public class CSV_Manager {
             System.out.println("No Data Found");
         }
     }
+
+    void viewStockTimePeriod(String name){
+        if(stockHashMap.containsKey(name)){
+            stockHashMap.get(name).showData_timeperiod();
+        }
+        else{
+            System.out.println("No Data Found");
+        }
+    }
 }
 

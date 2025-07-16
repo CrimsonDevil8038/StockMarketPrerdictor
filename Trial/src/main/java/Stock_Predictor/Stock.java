@@ -31,6 +31,7 @@ public class Stock {
     }
 
     public void showData_timeperiod() {
+
         Object[] dataretrived = dateFormatter.input();
         int time = (int) dataretrived[0];
         String start = (String) dataretrived[1];

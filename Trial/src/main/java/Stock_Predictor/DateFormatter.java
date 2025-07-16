@@ -92,7 +92,7 @@ class DateFormatter {
     boolean checkFormat1(int[] date) {
         boolean b = true;
         try {
-            if (date[2] >= 1924 && date[2] <= 3000 && date[1] >= 1 && date[1] <= 12) {
+            if (date[2] >= 1924 && date[2] <= 2050 && date[1] >= 1 && date[1] <= 12) {
                 switch (date[1]) {
                     case 1:
                     case 3:
@@ -165,7 +165,7 @@ class DateFormatter {
                 }
             }
 
-            if (month == -1 || year < 1924 || year > 3000) return false;
+            if (month == -1 || year < 1924 || year > 2050) return false;
 
             switch (month) {
                 case 1:
@@ -321,8 +321,14 @@ class DateFormatter {
 
         } while (days > 0);
 
+        start = start.substring(0,start.length()-4) + start.substring(start.length()-3);
+        System.out.println(start);
+
+
         return new Object[]{days, start};
     }
+
+
 
 
 }
