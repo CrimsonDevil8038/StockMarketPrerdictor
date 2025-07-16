@@ -10,14 +10,14 @@ public class Stock_Data {
     private final double volume;
     private final double vwap;
 
-    public Stock_Data(String date, double open, double high, double low, double close, double volume, double vwap) {
+    public Stock_Data(String date, double open, double high, double low, double close, double volume) {
         this.date = date;
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
         this.volume = volume;
-        this.vwap = vwap;
+        vwap = -1;
     }
 
     public String getDate() {

@@ -8,7 +8,9 @@ import java.io.*;
 import java.util.*;
 
 public class CSV_Manager {
+
     HashMap<String, Stock> stockHashMap = new HashMap<>();
+    DerivedIndicators derivedIndicators = new DerivedIndicators();
 
     void readCSV(String path, String name) {
 
@@ -17,7 +19,7 @@ public class CSV_Manager {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(path))){
 
             Map<String,Integer> selectedHeader = headerRefiner(getHeaders(new File(path)));
-
+            Stock stock = new Stock();
             Iterable<CSVRecord> records = null;
             records = CSVFormat.EXCEL
                     .withFirstRecordAsHeader()  // 👈 Add this line
@@ -27,19 +29,19 @@ public class CSV_Manager {
                 List<Map.Entry<String, Integer>> entries = new ArrayList<>(selectedHeader.entrySet());
                 Collections.sort(entries, Comparator.comparing(Map.Entry::getValue));
                 int i = 0;
+                String[] key_values = new String[entries.size()];
                 for (Map.Entry<String, Integer> e : entries) {
                     String key = record.get(e.getKey());
-                    System.out.print(e.getKey() + "\t" + key+"\t");
+                    key_values[i] = key;
                     i++;
                 }
                 if(i == entries.size()){
-
+                    Stock_Data stockData = dataEntries(key_values);
+                    stock.getStock_data().add(stockData);
                 }
-
-
-                System.out.println();
-
             }
+
+            stockHashMap.put(name,stock);
 
         } catch (FileNotFoundException e) {
 
@@ -98,7 +100,11 @@ public class CSV_Manager {
 
     }
 
-
+    Stock_Data dataEntries(String[] key_values){
+        return  new Stock_Data(key_values[0],Double.parseDouble(key_values[1]),Double.parseDouble(key_values[2]),
+                               Double.parseDouble(key_values[3]),Double.parseDouble(key_values[4]),
+                               Double.parseDouble(key_values[5]));
+    }
 
 
 }
