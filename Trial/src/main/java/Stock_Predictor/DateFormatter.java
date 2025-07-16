@@ -321,14 +321,12 @@ class DateFormatter {
 
         } while (days > 0);
 
-        start = start.substring(0,start.length()-4) + start.substring(start.length()-3);
+        start = start.substring(0, start.length() - 4) + start.substring(start.length() - 3);
         System.out.println(start);
 
 
         return new Object[]{days, start};
     }
-
-
 
 
 }

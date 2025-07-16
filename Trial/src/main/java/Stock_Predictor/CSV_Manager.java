@@ -15,10 +15,9 @@ public class CSV_Manager {
     void readCSV(String path, String name) {
 
 
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(path))){
-
-            Map<String,Integer> selectedHeader = headerRefiner(getHeaders(new File(path)));
+            Map<String, Integer> selectedHeader = headerRefiner(getHeaders(new File(path)));
             Stock stock = new Stock();
             Iterable<CSVRecord> records = null;
             records = CSVFormat.EXCEL
@@ -35,13 +34,13 @@ public class CSV_Manager {
                     key_values[i] = key;
                     i++;
                 }
-                if(i == entries.size()){
+                if (i == entries.size()) {
                     Stock_Data stockData = dataEntries(key_values);
                     stock.getStock_data().add(stockData);
                 }
             }
 
-            stockHashMap.put(name,stock);
+            stockHashMap.put(name, stock);
 
         } catch (FileNotFoundException e) {
 
@@ -54,11 +53,11 @@ public class CSV_Manager {
 
     }
 
-    Map<String,Integer> getHeaders(File path){
-        Map<String,Integer> headerMap = new HashMap<>();
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(path))){
+    Map<String, Integer> getHeaders(File path) {
+        Map<String, Integer> headerMap = new HashMap<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
 
-            CSVParser  csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(bufferedReader);
+            CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(bufferedReader);
             headerMap = csvParser.getHeaderMap();
 
         } catch (FileNotFoundException e) {
@@ -70,55 +69,53 @@ public class CSV_Manager {
         return headerMap;
     }
 
-    Map<String,Integer> headerRefiner( Map<String,Integer> headerMap){
-        Map<String,Integer> selectedHeaders = new HashMap<>();
+    Map<String, Integer> headerRefiner(Map<String, Integer> headerMap) {
+        Map<String, Integer> selectedHeaders = new HashMap<>();
 
-        String [][] multiHeaders = new String[][]{
-                {"Date","Date ","Timestamp","Datetime", "Trade Date"},
-                {"Open","Open ","Opening Price","O","Open Price"},
-                {"High","High ","Day High","High Price"},
-                {"Low","Low ","Day Low","Low Price"},
-                {"Close","Close ","Closing Price","C","Close Price"},
-                {"Volume","Shares Traded","Volume ","Shares Traded ","No.of Shares","Total Traded Quantity","Traded Qty","Qty","Shares Traded","Total Volume","Volume Traded","Traded Volume"}
-                };
+        String[][] multiHeaders = new String[][]{
+                {"Date", "Date ", "Timestamp", "Datetime", "Trade Date"},
+                {"Open", "Open ", "Opening Price", "O", "Open Price"},
+                {"High", "High ", "Day High", "High Price"},
+                {"Low", "Low ", "Day Low", "Low Price"},
+                {"Close", "Close ", "Closing Price", "C", "Close Price"},
+                {"Volume", "Shares Traded", "Volume ", "Shares Traded ", "No.of Shares", "Total Traded Quantity", "Traded Qty", "Qty", "Shares Traded", "Total Volume", "Volume Traded", "Traded Volume"}
+        };
         int z = 0;
         for (int i = 0; i < multiHeaders.length; i++) {
             for (int j = 0; j < multiHeaders[i].length; j++) {
                 Integer n = headerMap.get(multiHeaders[i][j]);
-                if(n == null){
+                if (n == null) {
                     continue;
-                }else {
-                    selectedHeaders.put(multiHeaders[i][j],n);
+                } else {
+                    selectedHeaders.put(multiHeaders[i][j], n);
                     z++;
                     break;
                 }
             }
         }
 
-        return  selectedHeaders;
+        return selectedHeaders;
 
     }
 
-    Stock_Data dataEntries(String[] key_values){
-        return  new Stock_Data(key_values[0],Double.parseDouble(key_values[1]),Double.parseDouble(key_values[2]),
-                               Double.parseDouble(key_values[3]),Double.parseDouble(key_values[4]),
-                               Double.parseDouble(key_values[5]));
+    Stock_Data dataEntries(String[] key_values) {
+        return new Stock_Data(key_values[0], Double.parseDouble(key_values[1]), Double.parseDouble(key_values[2]),
+                Double.parseDouble(key_values[3]), Double.parseDouble(key_values[4]),
+                Double.parseDouble(key_values[5]));
     }
 
-    void viewStock(String name){
-        if(stockHashMap.containsKey(name)){
+    void viewStock(String name) {
+        if (stockHashMap.containsKey(name)) {
             stockHashMap.get(name).showStockData();
-        }
-        else{
+        } else {
             System.out.println("No Data Found");
         }
     }
 
-    void viewStockTimePeriod(String name){
-        if(stockHashMap.containsKey(name)){
+    void viewStockTimePeriod(String name) {
+        if (stockHashMap.containsKey(name)) {
             stockHashMap.get(name).showData_timeperiod();
-        }
-        else{
+        } else {
             System.out.println("No Data Found");
         }
     }

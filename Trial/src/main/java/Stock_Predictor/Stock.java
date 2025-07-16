@@ -23,7 +23,7 @@ public class Stock {
     }
 
     public void showStockData() {
-        System.out.printf("%-12s %12s %12s %12s %12s %12s %12s\n","Date", "Open", "High", "Low", "Close", "Volume", "VWAP");
+        System.out.printf("%-12s %12s %12s %12s %12s %12s %12s\n", "Date", "Open", "High", "Low", "Close", "Volume", "VWAP");
 
         for (Stock_Data e : stock_data) {
             System.out.println(e.toString());
