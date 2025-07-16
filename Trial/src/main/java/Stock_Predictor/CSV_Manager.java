@@ -74,6 +74,7 @@ public class CSV_Manager {
         String [][] multiHeaders = new String[][]{
                 {"Date","Date ","Timestamp","Datetime", "Trade Date"},
                 {"Open","Open ","Opening Price","O","Open Price"},
+                
                 {"High","High ","Day High","High Price"},
                 {"Low","Low ","Day Low","Low Price"},
                 {"Close","Close ","Closing Price","C","Close Price"},
