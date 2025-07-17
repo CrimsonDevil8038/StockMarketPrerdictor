@@ -8,6 +8,8 @@ public class Test {
         // csvManager.readCSV("C:\\Users\\patel\\Downloads\\Stock_Files\\NIFTY 50-13-07-2024-to-13-07-2025.csv","Stock_Unknown1");
 
         csvManager.viewStockTimePeriod("Stock_Unknown");
+        //csvManager.viewStock("Stock_Unknown");
+
 
     }
 }
