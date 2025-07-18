@@ -34,15 +34,17 @@ public class Stock {
 
         Object[] dataretrived = dateFormatter.input();
         int time = (int) dataretrived[0];
-        String start = (String) dataretrived[1];
+        String end = (String) dataretrived[1];
         int remaining = time;
 
-        System.out.println("%-12Date %12.2Open %12.2High %12.2Low %12.2Close %12.2Volume %12.2VAMP");
+        System.out.printf("%-12s %12s %12s %12s %12s %12s %12s\n", "Date", "Open", "High", "Low", "Close", "Volume", "VWAP");
         for (int i = 0; i < stock_data.size(); i++) {
 
-            if (start.equalsIgnoreCase(stock_data.get(i).getDate()) || (remaining < time)) {
-                remaining--;
+            System.out.println(end.equalsIgnoreCase(stock_data.get(i).getDate())+" My Format: "+end+"\tFormat: "+stock_data.get(i).getDate());
+
+            if (end.equalsIgnoreCase(stock_data.get(i).getDate()) || (remaining < time)) {
                 System.out.println(stock_data.get(i).toString());
+                remaining--;
             } else if (remaining == 0) {
                 break;
             }
