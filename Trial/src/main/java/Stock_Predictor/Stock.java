@@ -33,19 +33,17 @@ public class Stock {
     public void showData_timeperiod() {
 
         Object[] dataretrived = dateFormatter.input();
-        int time = (int) dataretrived[0];
+        String start = (String)dataretrived[0];
         String end = (String) dataretrived[1];
-        int remaining = time;
-
+        int count = 0;
         System.out.printf("%-12s %12s %12s %12s %12s %12s %12s\n", "Date", "Open", "High", "Low", "Close", "Volume", "VWAP");
         for (int i = 0; i < stock_data.size(); i++) {
 
-            System.out.println(end.equalsIgnoreCase(stock_data.get(i).getDate())+" My Format: "+end+"\tFormat: "+stock_data.get(i).getDate());
-
-            if (end.equalsIgnoreCase(stock_data.get(i).getDate()) || (remaining < time)) {
+            if (end.equalsIgnoreCase(stock_data.get(i).getDate()) || count>0) {
                 System.out.println(stock_data.get(i).toString());
-                remaining--;
-            } else if (remaining == 0) {
+                count++;
+            }
+            if (start.equalsIgnoreCase(stock_data.get(i).getDate())) {
                 break;
             }
         }

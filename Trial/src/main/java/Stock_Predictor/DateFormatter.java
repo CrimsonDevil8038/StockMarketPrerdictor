@@ -327,9 +327,11 @@ class DateFormatter {
             days = toNumberofDays(end, start);
 
         } while (days > 0);
+
+        start = start.substring(0,start.length() - 4) + start.substring(start.length() - 2);
         end = end.substring(0,end.length() - 4) + end.substring(end.length() - 2);
 
-        return new Object[]{days, end};
+        return new Object[]{start, end};
     }
 
 
