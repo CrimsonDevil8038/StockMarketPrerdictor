@@ -56,6 +56,5 @@ public class DerivedIndicators {
 
         return (sum / vsum);
     }
-
-
+    //vwap
 }
