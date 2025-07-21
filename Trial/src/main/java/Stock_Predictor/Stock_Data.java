@@ -1,6 +1,10 @@
 package Stock_Predictor;
 
-public class Stock_Data {
+import java.io.Serializable;
+
+public class Stock_Data implements Serializable {
+
+    private  static  final  long SerialID = 2;
 
     private final String date;
     private final double open;
@@ -54,5 +58,10 @@ public class Stock_Data {
         String print = String.format("%-12s %12.2f %12.2f %12.2f %12.2f %12.2f %12.2f", date, open, high, low, close, volume, vwap);
 
         return print;
+    }
+
+    String toCSV(){
+        String toCSV_String = date+","+open+","+high+","+low+","+close+","+volume+","+vwap;
+        return toCSV_String;
     }
 }

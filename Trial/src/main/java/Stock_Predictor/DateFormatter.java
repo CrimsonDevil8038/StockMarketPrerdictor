@@ -1,8 +1,11 @@
 package Stock_Predictor;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.Scanner;
 
-class DateFormatter {
+class DateFormatter implements Serializable {
+
+    private  static  final  long SerialID = 3;
 
     String toFormat1(String format2) {
         String format1 = "";
@@ -328,8 +331,8 @@ class DateFormatter {
 
         } while (days > 0);
 
-        start = start.substring(0,start.length() - 4) + start.substring(start.length() - 2);
-        end = end.substring(0,end.length() - 4) + end.substring(end.length() - 2);
+        start = start.substring(0, start.length() - 4) + start.substring(start.length() - 2);
+        end = end.substring(0, end.length() - 4) + end.substring(end.length() - 2);
 
         return new Object[]{start, end};
     }

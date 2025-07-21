@@ -1,8 +1,11 @@
 package Stock_Predictor;
 
+import java.io.Serializable;
 import java.util.Stack;
 
-public class DerivedIndicators {
+public class DerivedIndicators implements Serializable {
+
+    private  static  final  long SerialID = 4;
 
     double averagePrice(double high, double low, double close) {
         return ((high + low + close) / 3);
@@ -46,7 +49,7 @@ public class DerivedIndicators {
         return Math.abs(exponentialMovingAverage(close_1) - exponentialMovingAverage(close_2));
     }
 
-    double vwap(double[] high, double[] low, double[] close, double[] volume) {
+    double volumeWeightedAverage(double[] high, double[] low, double[] close, double[] volume) {
 
         double sum = 0;
         double vsum = 0;
@@ -59,52 +62,51 @@ public class DerivedIndicators {
         return (sum / vsum);
     }
 
-    double rsi(double[]  close,double[] open){
+    double relativeStrengthIndex(double[] close, double[] open) {
         Stack<Double> gain = new Stack<Double>();
         Stack<Double> loss = new Stack<Double>();
         for (int i = 0; i < 14; i++) {
             double difference = close[i] - open[i];
-            if(difference < 0) {
+            if (difference < 0) {
                 loss.push(difference);
-            }
-            else{
+            } else {
                 gain.push(difference);
             }
         }
-        double avggain=0;
-        double avgloss=0;
-        for(double d:loss){
-            double sumloss=0;
-            sumloss=+d;
-            avgloss=sumloss/14;
+        double avggain = 0;
+        double avgloss = 0;
+        for (double d : loss) {
+            double sumloss = 0;
+            sumloss = +d;
+            avgloss = sumloss / 14;
         }
-        for(double d:gain){
-            double sumgain=0;
-            sumgain+=d;
-            avggain=sumgain/14;
+        for (double d : gain) {
+            double sumgain = 0;
+            sumgain += d;
+            avggain = sumgain / 14;
         }
-        double rs=avggain/avgloss;
-        return 100-(100/(1+rs));
+        double rs = avggain / avgloss;
+        return 100 - (100 / (1 + rs));
     }
 
-    double roc(double close1,double[] close,int period){
-        double roc=0;
-        double avgsum=0;
+    double rateOfChange(double close1, double[] close, int period) {
+        double roc = 0;
+        double avgsum = 0;
         int count = 0;
-        for (int i = close.length - 1; count <period ; i--, count++) {
+        for (int i = close.length - 1; count < period; i--, count++) {
             double sum = 0;
             sum += close[i];
-            avgsum += sum/period;
+            avgsum += sum / period;
         }
-        roc=(((close1-avgsum)*100)/avgsum);
+        roc = (((close1 - avgsum) * 100) / avgsum);
         return roc;
     }
 
-    double[] soscillator(double close,double[] open,double[] high,double[] low){
-        double[] k=new double[14];
-        for(int i=high.length-1;i>high.length-15;i--){
-            int j=0;
-            k[j]=((close-low[i])/(high[i]-low[i]))*100;
+    double[] stochaticOscillator(double close, double[] open, double[] high, double[] low) {
+        double[] k = new double[14];
+        for (int i = high.length - 1; i > high.length - 15; i--) {
+            int j = 0;
+            k[j] = ((close - low[i]) / (high[i] - low[i])) * 100;
         }
         return k;
     }
