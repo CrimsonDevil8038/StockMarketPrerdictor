@@ -9,11 +9,11 @@ import java.util.*;
 
 public class CSV_Manager implements Serializable {
 
-    private  static  final  long SerialID = 0;
+    private static final long SerialID = 0;
 
     private final HashMap<String, Stock> stockHashMap = new HashMap<>();
-    DerivedIndicators derivedIndicators = new DerivedIndicators();
     private final String commonPath = "S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources";
+    DerivedIndicators derivedIndicators = new DerivedIndicators();
 
     void readCSV(String path, String name) {
 
@@ -131,9 +131,9 @@ public class CSV_Manager implements Serializable {
             Stock stock = stockHashMap.get(name);
             File filegeneration = new File(commonPath, name + ".csv");
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filegeneration))) {
-            bufferedWriter.write("Date,Open,High,Low,CLose,Volume,VWAP");
-            bufferedWriter.newLine();
-                for (int i = 0;i<stock.getStock_data().size();i++){
+                bufferedWriter.write("Date,Open,High,Low,CLose,Volume,VWAP");
+                bufferedWriter.newLine();
+                for (int i = 0; i < stock.getStock_data().size(); i++) {
                     bufferedWriter.write(stock.getStock_data().get(i).toCSV());
                     bufferedWriter.newLine();
                 }
@@ -146,12 +146,11 @@ public class CSV_Manager implements Serializable {
         }
     }
 
-    void CSV(String path ,String name){
-        if(path.contains("S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources")){
+    void CSV(String path, String name) {
+        if (path.contains("S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources")) {
             System.out.println("File Already Entered");
-        }
-        else{
-            readCSV(path,name);
+        } else {
+            readCSV(path, name);
         }
 
     }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 class DateFormatter implements Serializable {
 
-    private  static  final  long SerialID = 3;
+    private static final long SerialID = 3;
 
     String toFormat1(String format2) {
         String format1 = "";

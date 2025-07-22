@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Stock_Data implements Serializable {
 
-    private  static  final  long SerialID = 2;
+    private static final long SerialID = 2;
 
     private final String date;
     private final double open;
@@ -60,8 +60,8 @@ public class Stock_Data implements Serializable {
         return print;
     }
 
-    String toCSV(){
-        String toCSV_String = date+","+open+","+high+","+low+","+close+","+volume+","+vwap;
+    String toCSV() {
+        String toCSV_String = date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + vwap;
         return toCSV_String;
     }
 }

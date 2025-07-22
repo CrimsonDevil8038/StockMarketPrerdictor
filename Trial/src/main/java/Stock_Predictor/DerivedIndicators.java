@@ -1,113 +1,228 @@
 package Stock_Predictor;
 
 import java.io.Serializable;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class DerivedIndicators implements Serializable {
 
-    private  static  final  long SerialID = 4;
+    private static final long serialVersionUID = 4L;
 
-    double averagePrice(double high, double low, double close) {
-        return ((high + low + close) / 3);
+
+    public static double getTypicalPrice(Stock_Data data) {
+        return (data.getHigh() + data.getLow() + data.getClose()) / 3.0;
     }
 
-    double medianPrice(double high, double low) {
-        return ((high + low) / 2);
-    }
 
-    double priceRange(double high, double low) {
-        return (high - low);
-    }
-
-    double bodySize(double open, double closs) {
-        return (closs - open);
-    }
-
-    double simpleMovingAverage(double[] close) {
-
-        double sum = 0;
-        for (int i = 0; i < close.length; i++) {
-            sum += close[i];
-        }
-        return (sum / close.length);
-    }
-
-    double exponentialMovingAverage(double[] close) {
-
-        double sum = 0;
-        for (int i = close.length - 1; i > 1; i++) {
-            sum += close[i];
-        }
-        double sma = (sum / (close.length - 1));
-
-        double a = 2 / (close.length);
-
-        return ((a * close[0]) + ((1 - a) * sma));
-    }
-
-    double movingAverageConvergenceDivergence(double[] close_1, double[] close_2) {
-        return Math.abs(exponentialMovingAverage(close_1) - exponentialMovingAverage(close_2));
-    }
-
-    double volumeWeightedAverage(double[] high, double[] low, double[] close, double[] volume) {
-
-        double sum = 0;
-        double vsum = 0;
-        for (int i = 0; i < high.length; i++) {
-            double sma = (averagePrice(high[i], low[i], close[i]) * volume[i]);
-            sum += sma;
-            vsum += volume[i];
+    public static double calculateVWAP(List<Stock_Data> data) {
+        if (data == null || data.isEmpty()) {
+            return 0.0;
         }
 
-        return (sum / vsum);
+        double totalValue = 0.0;
+        double totalVolume = 0.0;
+
+        for (Stock_Data periodData : data) {
+            totalValue += getTypicalPrice(periodData) * periodData.getVolume();
+            totalVolume += periodData.getVolume();
+        }
+
+        return totalVolume == 0 ? 0.0 : totalValue / totalVolume;
     }
 
-    double relativeStrengthIndex(double[] close, double[] open) {
-        Stack<Double> gain = new Stack<Double>();
-        Stack<Double> loss = new Stack<Double>();
-        for (int i = 0; i < 14; i++) {
-            double difference = close[i] - open[i];
-            if (difference < 0) {
-                loss.push(difference);
+
+    public static double calculateSMA(List<Stock_Data> data, int period) {
+        if (data == null || data.size() < period) {
+            return 0.0; // Not enough data
+        }
+
+
+        Collections.reverse(data);
+
+        List<Stock_Data> recentData = data.subList(data.size() - period, data.size());
+
+
+        double sum = 0.0;
+        for (Stock_Data stockDay : recentData) {
+            sum += stockDay.getClose();
+        }
+
+        Collections.reverse(data);
+
+        return sum / period;
+    }
+
+
+    public static double calculateEMA(List<Stock_Data> data, int period) {
+        if (data == null || data.size() < period) {
+            return 0.0;
+        }
+
+        Collections.reverse(data);
+
+        List<Double> closePrices = new ArrayList<>();
+        for (Stock_Data stockDay : data) {
+            closePrices.add(stockDay.getClose());
+        }
+
+
+        double initialSum = 0.0;
+        for (int i = 0; i < period; i++) {
+            initialSum += closePrices.get(i);
+        }
+        double sma = initialSum / period;
+
+        double multiplier = 2.0 / (period + 1.0);
+        double ema = sma; // The first EMA is the SMA
+
+
+        for (int i = period; i < closePrices.size(); i++) {
+            ema = (closePrices.get(i) - ema) * multiplier + ema;
+        }
+
+        Collections.reverse(data);
+
+        return ema;
+    }
+
+
+    public static double calculateRSI(List<Stock_Data> data, int period) {
+        if (data == null || data.size() < period + 1) {
+            return 0.0;
+        }
+
+        Collections.reverse(data);
+
+        double totalGain = 0;
+        double totalLoss = 0;
+
+
+        for (int i = 1; i <= period; i++) {
+            double change = data.get(i).getClose() - data.get(i - 1).getClose();
+            if (change > 0) {
+                totalGain += change;
             } else {
-                gain.push(difference);
+                totalLoss -= change;
             }
         }
-        double avggain = 0;
-        double avgloss = 0;
-        for (double d : loss) {
-            double sumloss = 0;
-            sumloss = +d;
-            avgloss = sumloss / 14;
+
+        double avgGain = totalGain / period;
+        double avgLoss = totalLoss / period;
+
+
+        for (int i = period + 1; i < data.size(); i++) {
+            double change = data.get(i).getClose() - data.get(i - 1).getClose();
+            if (change > 0) {
+                avgGain = (avgGain * (period - 1) + change) / period;
+                avgLoss = (avgLoss * (period - 1)) / period;
+            } else {
+                avgLoss = (avgLoss * (period - 1) - change) / period;
+                avgGain = (avgGain * (period - 1)) / period;
+            }
         }
-        for (double d : gain) {
-            double sumgain = 0;
-            sumgain += d;
-            avggain = sumgain / 14;
+
+        if (avgLoss == 0) {
+            return 100.0;
         }
-        double rs = avggain / avgloss;
-        return 100 - (100 / (1 + rs));
+
+        Collections.reverse(data);
+
+        double rs = avgGain / avgLoss;
+        return 100.0 - (100.0 / (1.0 + rs));
     }
 
-    double rateOfChange(double close1, double[] close, int period) {
-        double roc = 0;
-        double avgsum = 0;
-        int count = 0;
-        for (int i = close.length - 1; count < period; i--, count++) {
-            double sum = 0;
-            sum += close[i];
-            avgsum += sum / period;
+
+
+    public static MACDResult calculateMACD(List<Stock_Data> data) {
+        if (data == null || data.size() < 26) {
+            return new MACDResult(0.0, 0.0); // Not enough data
         }
-        roc = (((close1 - avgsum) * 100) / avgsum);
-        return roc;
+        Collections.reverse(data);
+
+        double ema12 = calculateEMA(data, 12);
+        double ema26 = calculateEMA(data, 26);
+        double macdLine = ema12 - ema26;
+
+
+        ArrayList<Double> macdHistory = new ArrayList<>();
+        for (int i = 26; i <= data.size(); i++) {
+            List<Stock_Data> sublist = data.subList(0, i);
+            double shortEma = calculateEMA(sublist, 12);
+            double longEma = calculateEMA(sublist, 26);
+            macdHistory.add(shortEma - longEma);
+        }
+
+
+        List<Stock_Data> macdAsStockData = new ArrayList<>();
+        for (double macdVal : macdHistory) {
+            
+            macdAsStockData.add(new Stock_Data("", 0, 0, 0, macdVal, 0));
+        }
+
+        double signalLine = calculateEMA(macdAsStockData, 9);
+
+        Collections.reverse(data);
+
+        return new MACDResult(macdLine, signalLine);
     }
 
-    double[] stochaticOscillator(double close, double[] open, double[] high, double[] low) {
-        double[] k = new double[14];
-        for (int i = high.length - 1; i > high.length - 15; i--) {
-            int j = 0;
-            k[j] = ((close - low[i]) / (high[i] - low[i])) * 100;
+
+
+
+    public static BollingerBands calculateBollingerBands(List<Stock_Data> data, int period, double stdDevMultiplier) {
+        if (data == null || data.size() < period) {
+            return new BollingerBands(0, 0, 0);
         }
-        return k;
+
+        double middleBand = calculateSMA(data, period);
+
+        Collections.reverse(data);
+
+        List<Stock_Data> recentData = data.subList(data.size() - period, data.size());
+
+
+        double sumOfSquares = 0.0;
+        for (Stock_Data stockDay : recentData) {
+            sumOfSquares += Math.pow(stockDay.getClose() - middleBand, 2);
+        }
+        double stdDev = Math.sqrt(sumOfSquares / period);
+
+        double upperBand = middleBand + (stdDev * stdDevMultiplier);
+        double lowerBand = middleBand - (stdDev * stdDevMultiplier);
+
+        Collections.reverse(data);
+
+        return new BollingerBands(upperBand, middleBand, lowerBand);
+    }
+
+
+    public static double calculateStochasticOscillator(List<Stock_Data> data, int period) {
+        if (data == null || data.size() < period) {
+            return 0.0;
+        }
+        Collections.reverse(data);
+
+        List<Stock_Data> recentData = data.subList(data.size() - period, data.size());
+
+        double currentClose = data.get(data.size() - 1).getClose();
+
+        double lowestLow = recentData.get(0).getLow();
+        double highestHigh = recentData.get(0).getHigh();
+
+        for (int i = 1; i < recentData.size(); i++) {
+            if (recentData.get(i).getLow() < lowestLow) {
+                lowestLow = recentData.get(i).getLow();
+            }
+            if (recentData.get(i).getHigh() > highestHigh) {
+                highestHigh = recentData.get(i).getHigh();
+            }
+        }
+
+        if (highestHigh == lowestLow) {
+            return 50.0;
+        }
+
+        return 100 * ((currentClose - lowestLow) / (highestHigh - lowestLow));
     }
 }
