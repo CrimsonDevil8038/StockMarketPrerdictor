@@ -4,6 +4,8 @@ public class MACDResult {
     private final double macdLine;
     private final double signalLine;
 
+    private static final long serialVersionUID = 5;
+
     public MACDResult(double macdLine, double signalLine) {
         this.macdLine = macdLine;
         this.signalLine = signalLine;

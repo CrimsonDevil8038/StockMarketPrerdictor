@@ -5,6 +5,8 @@ public class BollingerBands {
     private final double middleBand;
     private final double lowerBand;
 
+    private static final long serialVersionUID = 6;
+
     public BollingerBands(double upperBand, double middleBand, double lowerBand) {
         this.upperBand = upperBand;
         this.middleBand = middleBand;

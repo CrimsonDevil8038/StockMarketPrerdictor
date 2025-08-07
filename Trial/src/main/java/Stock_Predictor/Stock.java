@@ -8,6 +8,7 @@ public class Stock implements Serializable {
     private static final long SerialID = 1;
 
     private final LinkedList<Stock_Data> stock_data = new LinkedList<Stock_Data>();
+
     DateFormatter dateFormatter = new DateFormatter();
     private String name;
     private String fileLocation = "";

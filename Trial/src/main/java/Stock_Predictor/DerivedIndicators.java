@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DerivedIndicators implements Serializable {
 
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 4;
 
 
     public static double getTypicalPrice(Stock_Data data) {
@@ -74,7 +74,7 @@ public class DerivedIndicators implements Serializable {
         double sma = initialSum / period;
 
         double multiplier = 2.0 / (period + 1.0);
-        double ema = sma; // The first EMA is the SMA
+        double ema = sma;
 
 
         for (int i = period; i < closePrices.size(); i++) {
@@ -133,7 +133,6 @@ public class DerivedIndicators implements Serializable {
     }
 
 
-
     public static MACDResult calculateMACD(List<Stock_Data> data) {
         if (data == null || data.size() < 26) {
             return new MACDResult(0.0, 0.0); // Not enough data
@@ -156,7 +155,7 @@ public class DerivedIndicators implements Serializable {
 
         List<Stock_Data> macdAsStockData = new ArrayList<>();
         for (double macdVal : macdHistory) {
-            
+
             macdAsStockData.add(new Stock_Data("", 0, 0, 0, macdVal, 0));
         }
 
@@ -166,8 +165,6 @@ public class DerivedIndicators implements Serializable {
 
         return new MACDResult(macdLine, signalLine);
     }
-
-
 
 
     public static BollingerBands calculateBollingerBands(List<Stock_Data> data, int period, double stdDevMultiplier) {
