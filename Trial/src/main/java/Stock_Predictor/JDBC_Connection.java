@@ -1,15 +1,18 @@
 package Stock_Predictor;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class JDBC_Connection {
 
-    Connection SQLConnection(){
+    Connection SQLConnection() {
         String URL = "jdbc:postgresql://localhost:5432/sem_2pro";
         String USER = "postgres";
         String PASSWORD = "Shlok@0812";
 
         Connection connection = null;
-        try{
+        try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
             if (connection != null && !connection.isClosed()) {
@@ -22,7 +25,7 @@ public class JDBC_Connection {
             e.printStackTrace();
         }
 
-        return  connection;
+        return connection;
     }
 
 }

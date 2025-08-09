@@ -1,11 +1,12 @@
 package Stock_Predictor;
 
-import java.io.File;
 
 public class Test {
     public static void main(String[] args) {
         JDBC_Manager jdbcManager = new JDBC_Manager();
-        System.out.println(jdbcManager.create_Rest());
+        CSV_Manager csvManager = new CSV_Manager();
+
+        csvManager.readCSV("C:\\Users\\patel\\Downloads\\Stock_Files\\543940.csv", "Data1");
 
     }
 }

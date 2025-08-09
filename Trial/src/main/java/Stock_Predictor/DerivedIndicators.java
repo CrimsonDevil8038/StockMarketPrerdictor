@@ -1,12 +1,10 @@
 package Stock_Predictor;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DerivedIndicators implements Serializable {
-
+public class DerivedIndicators {
 
 
     public static double getTypicalPrice(Stock_Data data) {

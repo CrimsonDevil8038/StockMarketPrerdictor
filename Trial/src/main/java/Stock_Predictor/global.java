@@ -4,25 +4,24 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class global{
+class global {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         Admin admin = new Admin();
         admin.start();
 
-        while(true){
+        while (true) {
             System.out.println("Add a Stock_Predictor.User Question ?(yes/no)");
             String s = sc.nextLine();
-            if(s.equalsIgnoreCase("no")){
+            if (s.equalsIgnoreCase("no")) {
                 break;
-            }
-            else{
+            } else {
                 System.out.println("Enter user Name:");
                 String name = sc.nextLine();
                 System.out.println("Enter Question :");
                 String question = sc.nextLine();
 
-                User u=new User(name,question);
+                User u = new User(name, question);
                 u.start();
             }
             System.out.println("Stock_Predictor.User has asked Question.");
@@ -30,36 +29,36 @@ class global{
     }
 }
 
-class User extends Thread{
+class User extends Thread {
     String name;
     String question;
 
-    User(String name,String question){
-        this.name=name;
-        this.question=question;
+    User(String name, String question) {
+        this.name = name;
+        this.question = question;
     }
 
-    public void run(){
-        synchronized (global.class){
-            try{
-                FileWriter fw=new FileWriter("faq.txt");
-                fw.write("Stock_Predictor.User : "+name+"\n");
-                fw.write("Question : "+question+"\n");
+    public void run() {
+        synchronized (global.class) {
+            try {
+                FileWriter fw = new FileWriter("faq.txt");
+                fw.write("Stock_Predictor.User : " + name + "\n");
+                fw.write("Question : " + question + "\n");
                 fw.close();
-                System.out.println(name+ "Submitted question");
-            }
-            catch(IOException ioe){
+                System.out.println(name + "Submitted question");
+            } catch (IOException ioe) {
                 System.out.println("Error opening file");
             }
         }
     }
 }
-class Admin extends Thread{
-    public  void run(){
-        while(true){
-            try{
+
+class Admin extends Thread {
+    public void run() {
+        while (true) {
+            try {
                 Thread.sleep(3000);
-                synchronized(global.class) {
+                synchronized (global.class) {
                     Scanner sc = new Scanner(System.in);
                     File f1 = new File("faq.txt");
                     if (!f1.exists()) {
@@ -98,8 +97,7 @@ class Admin extends Thread{
                         System.out.println("No new Question");
                     }
                 }
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Error sleeping");
             }
         }

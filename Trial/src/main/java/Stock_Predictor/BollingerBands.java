@@ -1,11 +1,10 @@
 package Stock_Predictor;
 
 public class BollingerBands {
+    private static final long serialVersionUID = 6;
     private final double upperBand;
     private final double middleBand;
     private final double lowerBand;
-
-    private static final long serialVersionUID = 6;
 
     public BollingerBands(double upperBand, double middleBand, double lowerBand) {
         this.upperBand = upperBand;

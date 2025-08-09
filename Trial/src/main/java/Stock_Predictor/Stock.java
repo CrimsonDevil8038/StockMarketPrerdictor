@@ -1,14 +1,14 @@
 package Stock_Predictor;
 
-import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 
-public class Stock implements Serializable {
-    
+public class Stock {
+
 
     private final LinkedList<Stock_Data> stock_data = new LinkedList<Stock_Data>();
 
-    DateFormatter dateFormatter = new DateFormatter();
+
     private String name;
     private String fileLocation = "";
 
@@ -36,32 +36,82 @@ public class Stock implements Serializable {
         this.fileLocation = fileLocation;
     }
 
-    public void showStockData() {
-        System.out.printf("%-12s %12s %12s %12s %12s %12s %12s\n", "Date", "Open", "High", "Low", "Close", "Volume", "VWAP");
+    void calculate_() {
+        DerivedIndicators derivedIndicators = new DerivedIndicators();
 
-        for (Stock_Data e : stock_data) {
-            System.out.println(e.toString());
-        }
-    }
 
-    public void showData_timeperiod() {
-
-        Object[] dataretrived = dateFormatter.input();
-        String start = (String) dataretrived[0];
-        String end = (String) dataretrived[1];
-        int count = 0;
-        System.out.printf("%-12s %12s %12s %12s %12s %12s %12s\n", "Date", "Open", "High", "Low", "Close", "Volume", "VWAP");
         for (int i = 0; i < stock_data.size(); i++) {
+            Stock_Data currentDayData = stock_data.get(i);
+            List<Stock_Data> historicalData = stock_data.subList(0, i + 1);
 
-            if (end.equalsIgnoreCase(stock_data.get(i).getDate()) || count > 0) {
-                System.out.println(stock_data.get(i).toString());
-                count++;
-            }
-            if (start.equalsIgnoreCase(stock_data.get(i).getDate())) {
-                break;
-            }
+            //Typical Price
+            currentDayData.setTypicalPrice(DerivedIndicators.getTypicalPrice(currentDayData));
+
+            //VWAP-20 Days
+            int vwapPeriod = Math.min(i + 1, 20);
+            List<Stock_Data> vwapPeriodData = stock_data.subList(i - vwapPeriod + 1, i + 1);
+            currentDayData.setVwap(DerivedIndicators.calculateVWAP(vwapPeriodData));
+
+            //SMA_5
+            currentDayData.setSma_5(DerivedIndicators.calculateSMA(historicalData, 5));
+
+            //SMA_10
+            currentDayData.setSma_10(DerivedIndicators.calculateSMA(historicalData, 10));
+
+            //SMA_15
+            currentDayData.setSma_15(DerivedIndicators.calculateSMA(historicalData, 15));
+
+            //SMA_50
+            currentDayData.setSma_50(DerivedIndicators.calculateSMA(historicalData, 50));
+
+            //SMA_100
+            currentDayData.setSma_100(DerivedIndicators.calculateSMA(historicalData, 100));
+
+            //SMA_200
+            currentDayData.setSma_200(DerivedIndicators.calculateSMA(historicalData, 200));
+
+            //EMA_5
+            currentDayData.setEma_5(DerivedIndicators.calculateEMA(historicalData, 5));
+
+            //EMA_10
+            currentDayData.setEma_10(DerivedIndicators.calculateEMA(historicalData, 10));
+
+            //EMA_15
+            currentDayData.setEma_15(DerivedIndicators.calculateEMA(historicalData, 15));
+
+            //EMA_50
+            currentDayData.setEma_50(DerivedIndicators.calculateEMA(historicalData, 50));
+
+            //EMA_100
+            currentDayData.setEma_100(DerivedIndicators.calculateEMA(historicalData, 100));
+
+            //EMA_200
+            currentDayData.setEma_200(DerivedIndicators.calculateEMA(historicalData, 200));
+
+            //RSI_14
+            currentDayData.setRsi_14(DerivedIndicators.calculateRSI(historicalData, 14));
+
+            //RSI_30
+            currentDayData.setRsi_30(DerivedIndicators.calculateRSI(historicalData, 30));
+
+            //MACDLine and SignalLine
+            MACDResult macdResult = DerivedIndicators.calculateMACD(historicalData);
+            currentDayData.setMacdline(macdResult.getMacdLine());
+            currentDayData.setSignalline(macdResult.getSignalLine());
+
+            //UpperBand and MiddleBand and LowerBand
+            BollingerBands bollingerBands = DerivedIndicators.calculateBollingerBands(historicalData, 20, 2);
+            currentDayData.setUpperband(bollingerBands.getUpperBand());
+            currentDayData.setMiddleband(bollingerBands.getMiddleBand());
+            currentDayData.setLowerband(bollingerBands.getLowerBand());
+
+            //Stochastic
+            currentDayData.setStochastic(DerivedIndicators.calculateStochasticOscillator(historicalData, 14));
+
+
         }
-    }
 
+
+    }
 
 }

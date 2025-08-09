@@ -7,7 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.util.*;
 
-public class CSV_Manager implements Serializable {
+public class CSV_Manager {
 
     private final HashMap<String, Stock> stockHashMap = new HashMap<>();
     private final String commonPath = "S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources";
@@ -40,9 +40,10 @@ public class CSV_Manager implements Serializable {
                     stock.getStock_data().add(stockData);
                 }
             }
-
+            Collections.reverse(stock.getStock_data());
+            stock.calculate_();
             stockHashMap.put(name, stock);
-            writeCSV(name);
+
 
         } catch (FileNotFoundException e) {
 
@@ -52,6 +53,7 @@ public class CSV_Manager implements Serializable {
 
             throw new RuntimeException(e);
         }
+
 
     }
 
@@ -106,51 +108,5 @@ public class CSV_Manager implements Serializable {
                 Double.parseDouble(key_values[5]));
     }
 
-    void viewStock(String name) {
-        if (stockHashMap.containsKey(name)) {
-            stockHashMap.get(name).showStockData();
-        } else {
-            System.out.println("No Data Found");
-        }
-    }
-
-    void viewStockTimePeriod(String name) {
-        if (stockHashMap.containsKey(name)) {
-            stockHashMap.get(name).showData_timeperiod();
-        } else {
-            System.out.println("No Data Found");
-        }
-    }
-
-    void writeCSV(String name) {
-
-        if (stockHashMap.containsKey(name)) {
-
-            Stock stock = stockHashMap.get(name);
-            File filegeneration = new File(commonPath, name + ".csv");
-            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filegeneration))) {
-                bufferedWriter.write("Date,Open,High,Low,CLose,Volume,VWAP");
-                bufferedWriter.newLine();
-                for (int i = 0; i < stock.getStock_data().size(); i++) {
-                    bufferedWriter.write(stock.getStock_data().get(i).toCSV());
-                    bufferedWriter.newLine();
-                }
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            System.out.println("No Stock Data: " + name);
-        }
-    }
-
-    void CSV(String path, String name) {
-        if (path.contains("S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources")) {
-            System.out.println("File Already Entered");
-        } else {
-            readCSV(path, name);
-        }
-
-    }
 }
 

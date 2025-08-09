@@ -1,10 +1,9 @@
 package Stock_Predictor;
 
 public class MACDResult {
+    private static final long serialVersionUID = 5;
     private final double macdLine;
     private final double signalLine;
-
-    private static final long serialVersionUID = 5;
 
     public MACDResult(double macdLine, double signalLine) {
         this.macdLine = macdLine;
@@ -19,9 +18,4 @@ public class MACDResult {
         return signalLine;
     }
 
-    @Override
-    public String toString() {
-        return "MACD Line: " + String.format("%.2f", macdLine) +
-                ", Signal Line: " + String.format("%.2f", signalLine);
-    }
 }
