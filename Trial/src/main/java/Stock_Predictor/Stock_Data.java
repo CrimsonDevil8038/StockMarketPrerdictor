@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Stock_Data implements Serializable {
 
-    private static final long SerialID = 2;
 
     private final String date;
     private final double open;

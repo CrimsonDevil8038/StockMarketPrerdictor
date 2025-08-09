@@ -7,7 +7,6 @@ import java.util.List;
 
 public class DerivedIndicators implements Serializable {
 
-    private static final long serialVersionUID = 4;
 
 
     public static double getTypicalPrice(Stock_Data data) {

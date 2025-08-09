@@ -9,8 +9,6 @@ import java.util.*;
 
 public class CSV_Manager implements Serializable {
 
-    private static final long SerialID = 0;
-
     private final HashMap<String, Stock> stockHashMap = new HashMap<>();
     private final String commonPath = "S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources";
     DerivedIndicators derivedIndicators = new DerivedIndicators();
