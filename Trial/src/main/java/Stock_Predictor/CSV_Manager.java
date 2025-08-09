@@ -19,7 +19,7 @@ public class CSV_Manager {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
 
             Map<String, Integer> selectedHeader = headerRefiner(getHeaders(new File(path)));
-            Stock stock = new Stock();
+            Stock stock = new Stock(name);
             Iterable<CSVRecord> records = null;
             records = CSVFormat.EXCEL
                     .withFirstRecordAsHeader()  // 👈 Add this line
@@ -40,8 +40,10 @@ public class CSV_Manager {
                     stock.getStock_data().add(stockData);
                 }
             }
+
             Collections.reverse(stock.getStock_data());
             stock.calculate_();
+            stock.toPostgreSQL();
             stockHashMap.put(name, stock);
 
 

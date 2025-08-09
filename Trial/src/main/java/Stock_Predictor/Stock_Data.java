@@ -1,5 +1,8 @@
 package Stock_Predictor;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class Stock_Data {
     /*
 Error:
@@ -19,7 +22,7 @@ Use decimal-safe types (e.g., Java BigDecimal, Python Decimal) for parsing and c
 Apply explicit rounding to a fixed number of decimal places before storing or displaying results.
 Avoid unnecessary intermediate floating-point calculations.
      */
-
+    private Date official_date;
     private String date;
     private double open;
     private double high;
@@ -62,6 +65,14 @@ Avoid unnecessary intermediate floating-point calculations.
         rsi_14 = rsi_30 = ema_5 = ema_10 = ema_15 = ema_50 = ema_100 = ema_200 = vwap;
         macdline = signalline = upperband = middleband = lowerband = stochastic = vwap;
 
+    }
+
+    public Date getOfficial_date() {
+        return official_date;
+    }
+
+    public void setOfficial_date(Date official_date) {
+        this.official_date = official_date;
     }
 
     public double getRsi_14() {
@@ -292,7 +303,7 @@ Avoid unnecessary intermediate floating-point calculations.
     public String toString() {
         String formatted = String.format(
                 "%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f",
-                date, open, high, low, close, volume, vwap, typicalPrice,
+                official_date, open, high, low, close, volume, vwap, typicalPrice,
                 sma_5, sma_10, sma_15, sma_50, sma_100, sma_200,
                 ema_5, ema_10, ema_15, ema_50, ema_100, ema_200,
                 rsi_14, rsi_30, macdline, signalline,

@@ -5,12 +5,8 @@ import java.util.List;
 
 public class Stock {
 
-
     private final LinkedList<Stock_Data> stock_data = new LinkedList<Stock_Data>();
-
-
     private String name;
-    private String fileLocation = "";
 
     public Stock(String name) {
         this.name = name;
@@ -27,21 +23,13 @@ public class Stock {
         return stock_data;
     }
 
-
-    public String getFileLocation() {
-        return fileLocation;
-    }
-
-    public void setFileLocation(String fileLocation) {
-        this.fileLocation = fileLocation;
-    }
-
     void calculate_() {
         DerivedIndicators derivedIndicators = new DerivedIndicators();
-
+        JDBC_Manager jdbcManager = new JDBC_Manager();
 
         for (int i = 0; i < stock_data.size(); i++) {
             Stock_Data currentDayData = stock_data.get(i);
+
             List<Stock_Data> historicalData = stock_data.subList(0, i + 1);
 
             //Typical Price
@@ -108,10 +96,22 @@ public class Stock {
             //Stochastic
             currentDayData.setStochastic(DerivedIndicators.calculateStochasticOscillator(historicalData, 14));
 
+            currentDayData.setOfficial_date(jdbcManager.toCall_Dataformatter(currentDayData.getDate()));
 
+            System.out.println(currentDayData.toString());
         }
 
 
     }
 
+
+    void toPostgreSQL(){
+        JDBC_Manager jdbcManager = new JDBC_Manager();
+
+        jdbcManager.create_table_GeneralTable(name);
+        for (int i = 0; i< stock_data.size();i++) {
+            Stock_Data stockData = stock_data.get(i);
+            jdbcManager.insert_StockData(name,stockData);
+        }
+    }
 }
