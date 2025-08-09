@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb47f519-0872-4e25-addb-736a05df58d3" name="Changes" comment="">
+    <list default="true" id="95d23db2-6eee-4994-a4bc-ce242d870544" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/JDBC_Manager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ObjectSerialzation/Name.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ObjectSerialzation/Name.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/BollingerBands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/BollingerBands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/DerivedIndicators.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/DerivedIndicators.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/MACDResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/MACDResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Stock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Stock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,55 +30,31 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="jar://$USER_HOME$/.jdks/openjdk-24.0.1/lib/src.zip!/java.base/java/util/IllegalFormatPrecisionException.java" root0="SKIP_INSPECTION" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2zp8fezWDDXYPRdoMobTvOLT21d" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectId" id="309Mhq0urJLJYQb6tiuR5eOVcAJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Event.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Stock_Data.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Test.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.language&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Test.executor": "Run",
+    "Application.global.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="S:\Shlok\LEARNING\Java\Sem_2_Project\StockMarketPrerdictor\Trial\Imported_Libraries" />
-    </key>
-  </component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -81,38 +65,18 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="eb47f519-0872-4e25-addb-736a05df58d3" name="Changes" comment="" />
-      <created>1752416760173</created>
+      <changelist id="95d23db2-6eee-4994-a4bc-ce242d870544" name="Changes" comment="" />
+      <created>1753035456240</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1752416760173</updated>
-      <workItem from="1752416762063" duration="4209000" />
-      <workItem from="1752428407505" duration="7679000" />
-      <workItem from="1752497896981" duration="1606000" />
-      <workItem from="1752502817042" duration="4954000" />
-      <workItem from="1752583261994" duration="7307000" />
-      <workItem from="1752591362820" duration="327000" />
-      <workItem from="1752591699337" duration="3438000" />
-      <workItem from="1752605124622" duration="6248000" />
-      <workItem from="1752682406656" duration="9255000" />
-      <workItem from="1752731398030" duration="503000" />
-      <workItem from="1752741102875" duration="1079000" />
-      <workItem from="1752745134909" duration="1206000" />
-      <workItem from="1752760777437" duration="2148000" />
-      <workItem from="1752769019548" duration="159000" />
-      <workItem from="1752816174125" duration="1999000" />
-      <workItem from="1752827862502" duration="2004000" />
-      <workItem from="1752829941910" duration="550000" />
-      <workItem from="1753022372217" duration="971000" />
-      <workItem from="1753025658219" duration="3000" />
+      <updated>1753035456240</updated>
+      <workItem from="1753035457336" duration="354000" />
+      <workItem from="1753122492618" duration="2000" />
+      <workItem from="1753281271614" duration="1363000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
