@@ -67,6 +67,20 @@ Avoid unnecessary intermediate floating-point calculations.
 
     }
 
+    public Stock_Data(Date date, double open, double high, double low, double close, double volume) {
+        this.official_date = date;
+        this.open = open;
+        this.high = high;
+        this.low = low;
+        this.close = close;
+        this.volume = volume;
+        vwap = 0;
+        typicalPrice = sma_5 = sma_10 = sma_15 = sma_50 = sma_100 = sma_200 = vwap;
+        rsi_14 = rsi_30 = ema_5 = ema_10 = ema_15 = ema_50 = ema_100 = ema_200 = vwap;
+        macdline = signalline = upperband = middleband = lowerband = stochastic = vwap;
+
+    }
+
     public Date getOfficial_date() {
         return official_date;
     }

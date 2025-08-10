@@ -221,5 +221,96 @@ $$;
         }
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
+    void listTables() {
+        DatabaseMetaData dbMeta = null;
+        try {
+            dbMeta = connection.getMetaData();
+            ResultSet rs = dbMeta.getTables(connection.getCatalog(), "", null, new String[]{"TABLE"});
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                System.out.println(tableName);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void update_recalculatedData(String name,Stock_Data stockData){
+
+        try {
+            String sql = "INSERT INTO  " + name + " VALUES (" +
+                    "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" +
+                    "ON CONFLICT (official_date)" +
+                    "DO UPDATE SET" +
+                    "    open = EXCLUDED.open," +
+                    "    high = EXCLUDED.high," +
+                    "    low = EXCLUDED.low," +
+                    "    close = EXCLUDED.close," +
+                    "    volume = EXCLUDED.volume," +
+                    "    vwap = EXCLUDED.vwap," +
+                    "    typicalPrice = EXCLUDED.typicalPrice," +
+                    "    sma_5 = EXCLUDED.sma_5," +
+                    "    sma_10 = EXCLUDED.sma_10," +
+                    "    sma_15 = EXCLUDED.sma_15," +
+                    "    sma_50 = EXCLUDED.sma_50," +
+                    "    sma_100 = EXCLUDED.sma_100," +
+                    "    sma_200 = EXCLUDED.sma_200," +
+                    "    ema_5 = EXCLUDED.ema_5," +
+                    "    ema_10 = EXCLUDED.ema_10," +
+                    "    ema_15 = EXCLUDED.ema_15," +
+                    "    ema_50 = EXCLUDED.ema_50," +
+                    "    ema_100 = EXCLUDED.ema_100," +
+                    "    ema_200 = EXCLUDED.ema_200," +
+                    "    rsi_14 = EXCLUDED.rsi_14," +
+                    "    rsi_30 = EXCLUDED.rsi_30," +
+                    "    macdline = EXCLUDED.macdline," +
+                    "    signalline = EXCLUDED.signalline," +
+                    "    upperband = EXCLUDED.upperband," +
+                    "    middleband = EXCLUDED.middleband," +
+                    "    lowerband = EXCLUDED.lowerband," +
+                    "    stochastic = EXCLUDED.stochastic;";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setDate(1, stockData.getOfficial_date());
+            preparedStatement.setDouble(2, stockData.getOpen());
+            preparedStatement.setDouble(3, stockData.getHigh());
+            preparedStatement.setDouble(4, stockData.getLow());
+            preparedStatement.setDouble(5, stockData.getClose());
+            preparedStatement.setDouble(6, stockData.getVolume());
+            preparedStatement.setDouble(7, stockData.getVwap());
+            preparedStatement.setDouble(8, stockData.getTypicalPrice());
+            preparedStatement.setDouble(9, stockData.getSma_5());
+            preparedStatement.setDouble(10, stockData.getSma_10());
+            preparedStatement.setDouble(11, stockData.getSma_15());
+            preparedStatement.setDouble(12, stockData.getSma_50());
+            preparedStatement.setDouble(13, stockData.getSma_100());
+            preparedStatement.setDouble(14, stockData.getSma_200());
+            preparedStatement.setDouble(15, stockData.getEma_5());
+            preparedStatement.setDouble(16, stockData.getEma_10());
+            preparedStatement.setDouble(17, stockData.getEma_15());
+            preparedStatement.setDouble(18, stockData.getEma_50());
+            preparedStatement.setDouble(19, stockData.getEma_100());
+            preparedStatement.setDouble(20, stockData.getEma_200());
+            preparedStatement.setDouble(21, stockData.getRsi_14());
+            preparedStatement.setDouble(22, stockData.getRsi_30());
+            preparedStatement.setDouble(23, stockData.getMacdline());
+            preparedStatement.setDouble(24, stockData.getSignalline());
+            preparedStatement.setDouble(25, stockData.getUpperband());
+            preparedStatement.setDouble(26, stockData.getMiddleband());
+            preparedStatement.setDouble(27, stockData.getLowerband());
+            preparedStatement.setDouble(28, stockData.getStochastic());
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 }
 

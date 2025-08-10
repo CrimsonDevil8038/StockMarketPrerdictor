@@ -10,7 +10,6 @@ import java.util.*;
 public class CSV_Manager {
 
     private final HashMap<String, Stock> stockHashMap = new HashMap<>();
-    private final String commonPath = "S:\\Shlok\\LEARNING\\Java\\Sem_2_Project\\StockMarketPrerdictor\\Trial\\src\\main\\resources";
     DerivedIndicators derivedIndicators = new DerivedIndicators();
 
     void readCSV(String path, String name) {
@@ -22,7 +21,7 @@ public class CSV_Manager {
             Stock stock = new Stock(name);
             Iterable<CSVRecord> records = null;
             records = CSVFormat.EXCEL
-                    .withFirstRecordAsHeader()  // 👈 Add this line
+                    .withFirstRecordAsHeader()
                     .parse(bufferedReader);
 
             for (CSVRecord record : records) {
@@ -44,6 +43,7 @@ public class CSV_Manager {
             Collections.reverse(stock.getStock_data());
             stock.calculate_();
             stock.toPostgreSQL();
+            stock.to_recalculate();
             stockHashMap.put(name, stock);
 
 
