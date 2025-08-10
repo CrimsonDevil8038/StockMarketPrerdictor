@@ -6,7 +6,7 @@ public class Test {
         JDBC_Manager jdbcManager = new JDBC_Manager();
         CSV_Manager csvManager = new CSV_Manager();
 
-        csvManager.readCSV("C:\\Users\\patel\\Downloads\\Stock_Files\\543940.csv", "Data1");
+        csvManager.readCSV("C:\\Users\\patel\\Downloads\\RelianceIndustries.csv", "Reliance");
 
     }
 }

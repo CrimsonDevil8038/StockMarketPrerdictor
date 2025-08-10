@@ -94,15 +94,73 @@ public class JDBC_Manager {
 
     public Date toCall_Dataformatter(String dateString) {
         /*
-        CREATE OR REPLACE FUNCTION DateFormatter(conversionDate TEXT)
-            RETURNS DATE
-            LANGUAGE plpgsql AS $$
-        DECLARE
+       CREATE OR REPLACE FUNCTION DateFormatter(date_string TEXT)
+RETURNS DATE
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    -- Variable to hold the successfully converted date.
+    converted_date DATE;
+BEGIN
+    -- Return NULL immediately if input is NULL or empty to avoid unnecessary processing.
+    IF date_string IS NULL OR date_string = '' THEN
+        RETURN NULL;
+    END IF;
 
-        BEGIN
-            RETURN TO_DATE(conversionDate, 'DD-Mon-YY');
-        END;
-        $$
+    -- Attempt 1: ISO Format (YYYY-MM-DD)
+    -- This is the standard and should be tried first.
+    BEGIN
+        converted_date := TO_DATE(date_string, 'YYYY-MM-DD');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+        -- If it fails, silently continue to the next format.
+    END;
+
+    -- Attempt 2: Abbreviated Month (e.g., '1-Jul-24' or '01-Jul-2024')
+    BEGIN
+        converted_date := TO_DATE(date_string, 'DD-Mon-YY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+        -- Continue.
+    END;
+
+    -- Attempt 3: Full Month Name (e.g., '8-August-2024')
+    BEGIN
+        converted_date := TO_DATE(date_string, 'DD-Month-YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+        -- Continue.
+    END;
+
+    -- Attempt 4: Common US Format (e.g., '08/25/2024')
+    BEGIN
+        converted_date := TO_DATE(date_string, 'MM/DD/YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+        -- Continue.
+    END;
+
+    -- Attempt 5: Common European Format (e.g., '25/08/2024')
+    BEGIN
+        converted_date := TO_DATE(date_string, 'DD/MM/YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+        -- Continue.
+    END;
+
+    -- Attempt 6: Textual Month (e.g., 'August 8, 2024')
+    BEGIN
+        converted_date := TO_DATE(date_string, 'Month DD, YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+        -- Continue.
+    END;
+
+    -- If all attempts have failed, the format is unrecognized.
+    -- Return NULL to indicate failure to parse.
+    RETURN NULL;
+END;
+$$;
 
          */
         try {
