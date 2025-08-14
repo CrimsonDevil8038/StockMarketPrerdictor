@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Scanner;
 
 public class AccountManager {
-
+    private String username;
     Scanner scanner = new Scanner(System.in);
 
     private boolean check_UserName(String name) {
@@ -144,10 +144,9 @@ public class AccountManager {
         }
     }
 
-    void check_credentials(){
+    boolean check_credentials(){
         int count =0;
         try{
-            String usename =" ";
             String password ="";
             boolean check = true;
 
@@ -161,18 +160,25 @@ public class AccountManager {
                 System.out.print("Enter Surname: ");
                 String sname = scanner.next();
 
-                usename = fname + " " + sname;
+                username = fname + " " + sname;
 
                 System.out.print("Enter Password: ");
                 password = scanner.next();
 
                 count++;
 
-                if(new JDBC_Manager().check_data(usename, password) && count<3){
+                if(new JDBC_Manager().check_data(username, password) && count<3){
                     System.out.println("Login Successful");
                     check =  false;
                 }
                 }while (check);
+
+            if (check == false){
+                return  true;
+            }
+            else {
+                return  false;
+            }
 
 
 
@@ -181,4 +187,7 @@ public class AccountManager {
             }
     }
 
+    public String getUsername() {
+        return username;
+    }
 }

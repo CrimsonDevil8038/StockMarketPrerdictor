@@ -10,6 +10,7 @@ public class Test {
         JDBC_Manager jdbcManager = new JDBC_Manager();
 
         AccountManager accountManager = new AccountManager();
+        accountManager.data();
         accountManager.check_credentials();
 
 

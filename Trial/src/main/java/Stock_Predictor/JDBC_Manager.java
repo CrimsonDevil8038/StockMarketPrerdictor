@@ -323,6 +323,7 @@ $$;
             preparedStatement.setTimestamp(6, Timestamp.from(lastlogin));
 
             preparedStatement.executeUpdate();
+            create_User(username);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
