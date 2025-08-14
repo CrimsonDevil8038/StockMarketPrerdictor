@@ -11,7 +11,7 @@ public class Test {
         CSV_Manager csvManager = new CSV_Manager();
 //        jdbcManager.listTables();
 
-        csvManager.readCSV("C:\\Users\\patel\\Downloads\\Reilance_1.csv", "Reliance");
+        csvManager.readCSV("C:\\Users\\patel\\Downloads\\Stock_Files\\Reilance_1.csv", "Reliance");
 
     }
 }

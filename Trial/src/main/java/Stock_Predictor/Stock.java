@@ -115,32 +115,32 @@ public class Stock {
         }
     }
 
-    void to_recalculate(){
-
-        try(Connection connection = jdbcManager.getConnection();
-            Statement statement = connection.createStatement()
-        ){
-            String sql = "Select Date,Open,High,Low,Close,Volume from "+name+" Order By Date  Asc";
-            stock_data.clear();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()){
-                Stock_Data stockData = new Stock_Data(resultSet.getString(1), resultSet.getDouble(2),
-                resultSet.getDouble(3), resultSet.getDouble(4), resultSet.getDouble(5),
-                resultSet.getDouble(6));
-                stock_data.add(stockData);
-                stockData.setOfficial_date(jdbcManager.toCall_Dataformatter(stockData.getDate()));
-                System.out.println(stock_data.toString());
-            }
-
-            calculate_();
-            for (int i = 0; i < stock_data.size(); i++) {
-                Stock_Data stockData = stock_data.get(i);
-                jdbcManager.update_recalculatedData(name,stockData);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
+//    void to_recalculate(){
+//
+//        try(Connection connection = jdbcManager.getConnection();
+//            Statement statement = connection.createStatement()
+//        ){
+//            String sql = "Select Date,Open,High,Low,Close,Volume from "+name+" Order By Date  Asc";
+//            stock_data.clear();
+//            ResultSet resultSet = statement.executeQuery(sql);
+//            while (resultSet.next()){
+//                Stock_Data stockData = new Stock_Data(resultSet.getString(1), resultSet.getDouble(2),
+//                resultSet.getDouble(3), resultSet.getDouble(4), resultSet.getDouble(5),
+//                resultSet.getDouble(6));
+//                stock_data.add(stockData);
+//                stockData.setOfficial_date(jdbcManager.toCall_Dataformatter(stockData.getDate()));
+//                System.out.println(stock_data.toString());
+//            }
+//
+//            calculate_();
+//            for (int i = 0; i < stock_data.size(); i++) {
+//                Stock_Data stockData = stock_data.get(i);
+//                jdbcManager.update_recalculatedData(name,stockData);
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
 }

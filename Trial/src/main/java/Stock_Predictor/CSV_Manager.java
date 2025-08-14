@@ -43,7 +43,7 @@ public class CSV_Manager {
             Collections.reverse(stock.getStock_data());
             stock.calculate_();
             stock.toPostgreSQL();
-            stock.to_recalculate();
+//            stock.to_recalculate();
             stockHashMap.put(name, stock);
 
 
