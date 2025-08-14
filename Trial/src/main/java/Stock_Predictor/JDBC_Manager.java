@@ -1,6 +1,7 @@
 package Stock_Predictor;
 
 import java.sql.*;
+import java.time.Instant;
 
 public class JDBC_Manager {
 
@@ -76,7 +77,7 @@ public class JDBC_Manager {
             String table_Users = "Create Table If Not Exists USERS(" +
                     "UserId serial PRIMARY KEY,Username varchar(50),Password varchar(50)," +
                     "Pancard varchar(10) NOT NULL UNIQUE ,AadharCard varchar(12) NOT NULL UNIQUE,Mobile varchar(10) NOT NULL UNIQUE" +
-                    ");";
+                    ",lastlogin TIMESTAMP);";
 
             String prediction_table = "Create Table If not Exists PredictionAcc(" +
                     "Stock varchar(50),Prediction_Short numeric(3,2),Prediction_Long numeric(3,2)" +
@@ -175,10 +176,10 @@ $$;
         }
     }
 
-    boolean insert_StockData(String name,Stock_Data stockData){
+    boolean insert_StockData(String name, Stock_Data stockData) {
 
-        try{
-            String sql = "Insert into "+name+" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)ON CONFLICT DO NOTHING";
+        try {
+            String sql = "Insert into " + name + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)ON CONFLICT DO NOTHING";
             // Assuming 'stockData' is your data object and 'connection' is your SQL connection
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
@@ -211,11 +212,7 @@ $$;
             preparedStatement.setDouble(27, stockData.getLowerband());
             preparedStatement.setDouble(28, stockData.getStochastic());
 
-            if(preparedStatement.executeUpdate()>=0){
-                return  true;
-            }else{
-                return  false;
-            }
+            return preparedStatement.executeUpdate() >= 0;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -239,7 +236,7 @@ $$;
         }
     }
 
-    void update_recalculatedData(String name,Stock_Data stockData){
+    void update_recalculatedData(String name, Stock_Data stockData) {
 
         try {
             String sql = "INSERT INTO  " + name + " VALUES (" +
@@ -312,5 +309,41 @@ $$;
 
 
     }
+
+    void insert_user(String username, String password, String pancard, String aadharcard,
+                     String mobile, Instant lastlogin) {
+        try {
+            String sql = "Insert into users(username,password,pancard,aadharcard,mobile,lastlogin) values (?,?,?,?,?,?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, pancard);
+            preparedStatement.setString(4, aadharcard);
+            preparedStatement.setString(5, mobile);
+            preparedStatement.setTimestamp(6, Timestamp.from(lastlogin));
+
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    boolean check_data(String username, String password) {
+        try {
+            String sql = "Select password from users where username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return password.equals(resultSet.getString(1));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
 
