@@ -93,7 +93,8 @@ public class Main {
                     do {
                         System.out.println("Press 1 to Import New Stock Value");
                         System.out.println("Press 2 to Prediction");
-                        System.out.println("Press 3 to ");
+                        System.out.println("Press 3 to Equation Control Panel");
+                        System.out.println("Press 4 to Exit");
                         System.out.print("Enter Choice: ");
                         m = scanner.nextInt();
 
@@ -102,10 +103,15 @@ public class Main {
                                 break;
                             }
                             case 2:{
+
                                 break;
                             }
                             case 3:{
-                                System.out.println("Exitting Submenu");
+                                break;
+                            }
+
+                            case 4:{
+                                System.out.println("Exiting Submenu");
                             }
                             default:{
                                 System.out.println("Enter Valid Value");
@@ -116,8 +122,22 @@ public class Main {
                     break;
 
                 }
-            }
 
+                case 3:{
+                    break;
+                }
+
+                case 4:{
+                    break;
+                }
+                case 5:{
+                    System.out.println("Exiting Submenu");
+                }
+                default:{
+                    System.out.println("Enter Valid Value");
+                }
+
+            }
         }while (n!=5);
 
 
