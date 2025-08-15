@@ -49,7 +49,7 @@ public class JDBC_Manager {
 
     String getUser_data(String username) {
         String User_data = "Create Table IF NOT EXISTS " + username + "(" +
-                "UserId serial PRIMARY KEY,Stock varchar(50),Quantity Integer,Purchase_Price Numeric" +
+                "UserId serial PRIMARY KEY,Stock varchar(50),Quantity Integer,Purchase_Price Numeric,PurchaseTime TimeStamp" +
                 ");";
         return User_data;
     }
