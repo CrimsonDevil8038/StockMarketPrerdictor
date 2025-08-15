@@ -1,4 +1,4 @@
-package Stock_Predictor;
+package Stock_Predictor.Predict_And_Analysis;
 
 import java.util.ArrayList;
 import java.util.Collections;

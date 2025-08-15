@@ -1,9 +1,9 @@
 package Stock_Predictor;
 
 
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import Stock_Predictor.Account.AccountManager;
+import Stock_Predictor.JDBC.JDBC_Manager;
+import Stock_Predictor.Predict_And_Analysis.CSV_Manager;
 
 public class Test {
     public static void main(String[] args) {

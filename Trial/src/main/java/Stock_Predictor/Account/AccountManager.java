@@ -1,4 +1,6 @@
-package Stock_Predictor;
+package Stock_Predictor.Account;
+
+import Stock_Predictor.JDBC.JDBC_Manager;
 
 import java.time.Instant;
 import java.util.Scanner;

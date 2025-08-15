@@ -1,4 +1,4 @@
-package Stock_Predictor;
+package Stock_Predictor.JDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

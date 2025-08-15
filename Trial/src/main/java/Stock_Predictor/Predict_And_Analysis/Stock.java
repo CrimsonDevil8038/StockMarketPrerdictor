@@ -1,7 +1,7 @@
-package Stock_Predictor;
+package Stock_Predictor.Predict_And_Analysis;
 
-import java.sql.*;
-import java.util.Collections;
+import Stock_Predictor.JDBC.JDBC_Manager;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class Stock {
 
     private final LinkedList<Stock_Data> stock_data = new LinkedList<Stock_Data>();
     private String name;
-    private  JDBC_Manager jdbcManager = new JDBC_Manager();
+    private JDBC_Manager jdbcManager = new JDBC_Manager();
 
     public Stock(String name) {
         this.name = name;

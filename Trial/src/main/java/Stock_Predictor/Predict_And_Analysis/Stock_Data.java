@@ -1,7 +1,6 @@
-package Stock_Predictor;
+package Stock_Predictor.Predict_And_Analysis;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Stock_Data {
     /*

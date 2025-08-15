@@ -1,4 +1,6 @@
-package Stock_Predictor;
+package Stock_Predictor.JDBC;
+
+import Stock_Predictor.Predict_And_Analysis.Stock_Data;
 
 import java.sql.*;
 import java.time.Instant;

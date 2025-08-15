@@ -1,4 +1,4 @@
-package Stock_Predictor;
+package Stock_Predictor.Predict_And_Analysis;
 
 public class BollingerBands {
     private static final long serialVersionUID = 6;

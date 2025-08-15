@@ -1,10 +1,13 @@
 package Stock_Predictor;
 
+import Stock_Predictor.Account.AccountManager;
+import Stock_Predictor.Predict_And_Analysis.CSV_Manager;
+
 import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
-    static  AccountManager accountManager = new AccountManager();
+    static AccountManager accountManager = new AccountManager();
     static CSV_Manager csvManager = new CSV_Manager();
 
 
