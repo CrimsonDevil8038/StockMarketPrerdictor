@@ -10,16 +10,9 @@ Minor value mismatches (e.g., X.0000000002 instead of expected X) observed in co
 Cause:
 Floating-point precision errors caused by binary representation of decimal numbers in programming languages. Exact decimal fractions cannot always be stored in float/double, leading to small rounding artifacts during arithmetic operations.
 
-Effect:
-
-Output contains unexpected trailing decimals.
-Calculations may not exactly match source or reference values.
-Can cause inconsistencies in downstream analytics or comparisons.
-
 Solution:
 Use decimal-safe types (e.g., Java BigDecimal, Python Decimal) for parsing and computation when precision is important.
 Apply explicit rounding to a fixed number of decimal places before storing or displaying results.
-Avoid unnecessary intermediate floating-point calculations.
      */
     private Date official_date;
     private String date;
@@ -50,6 +43,8 @@ Avoid unnecessary intermediate floating-point calculations.
     private double middleband;
     private double lowerband;
     private double stochastic;
+    private double sma_20volume;
+    private double volDevNorm;
 
 
     public Stock_Data(String date, double open, double high, double low, double close, double volume) {
@@ -59,11 +54,11 @@ Avoid unnecessary intermediate floating-point calculations.
         this.low = low;
         this.close = close;
         this.volume = volume;
-        vwap = 0;
+
+        vwap = -1;
         typicalPrice = sma_5 = sma_10 = sma_15 = sma_50 = sma_100 = sma_200 = vwap;
         rsi_14 = rsi_30 = ema_5 = ema_10 = ema_15 = ema_50 = ema_100 = ema_200 = vwap;
-        macdline = signalline = upperband = middleband = lowerband = stochastic = vwap;
-
+        macdline = signalline = upperband = middleband = lowerband = stochastic = sma_20volume = volDevNorm = vwap;
     }
 
     public Stock_Data(Date date, double open, double high, double low, double close, double volume) {
@@ -73,12 +68,14 @@ Avoid unnecessary intermediate floating-point calculations.
         this.low = low;
         this.close = close;
         this.volume = volume;
+        // Initialize all derived fields to 0
         vwap = 0;
         typicalPrice = sma_5 = sma_10 = sma_15 = sma_50 = sma_100 = sma_200 = vwap;
         rsi_14 = rsi_30 = ema_5 = ema_10 = ema_15 = ema_50 = ema_100 = ema_200 = vwap;
-        macdline = signalline = upperband = middleband = lowerband = stochastic = vwap;
-
+        macdline = signalline = upperband = middleband = lowerband = stochastic = sma_20volume = vwap;
     }
+
+    // --- Getters and Setters ---
 
     public Date getOfficial_date() {
         return official_date;
@@ -312,17 +309,31 @@ Avoid unnecessary intermediate floating-point calculations.
         this.stochastic = stochastic;
     }
 
+    public double getSma_20volume() {
+        return sma_20volume;
+    }
 
+    public void setSma_20volume(double sma_20volume) {
+        this.sma_20volume = sma_20volume;
+    }
+    public double getVolDevNorm() {
+        return volDevNorm;
+    }
+
+    public void setVolDevNorm(double volDevNorm) {
+        this.volDevNorm = volDevNorm;
+    }
+
+    @Override
     public String toString() {
-        String formatted = String.format(
-                "%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f",
+        // Updated to include sma_20volume
+        return String.format(
+                "%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f",
                 official_date, open, high, low, close, volume, vwap, typicalPrice,
                 sma_5, sma_10, sma_15, sma_50, sma_100, sma_200,
                 ema_5, ema_10, ema_15, ema_50, ema_100, ema_200,
                 rsi_14, rsi_30, macdline, signalline,
-                upperband, middleband, lowerband, stochastic
+                upperband, middleband, lowerband, stochastic, sma_20volume
         );
-        return formatted;
     }
-
 }
