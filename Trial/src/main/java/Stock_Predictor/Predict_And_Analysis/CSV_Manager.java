@@ -12,7 +12,7 @@ public class CSV_Manager {
     private final HashMap<String, Stock> stockHashMap = new HashMap<>();
     DerivedIndicators derivedIndicators = new DerivedIndicators();
 
-    void readCSV(String path, String name) {
+    public void readCSV(String path, String name) {
 
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {

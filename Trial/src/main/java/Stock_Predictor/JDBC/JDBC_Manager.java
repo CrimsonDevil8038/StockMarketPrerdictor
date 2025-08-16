@@ -631,7 +631,7 @@ public class JDBC_Manager {
             throw new RuntimeException(e);
         }
     }
-    
+
 
     public double getOpenOnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "Open", date);
