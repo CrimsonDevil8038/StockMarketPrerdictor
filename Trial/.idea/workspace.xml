@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95d23db2-6eee-4994-a4bc-ce242d870544" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Practice/Practice.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Account/AccountManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Account/AccountManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Portfolio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Portfolio.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,12 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/CrimsonDevil8038/StockMarketPrerdictor.git",
-    "accountId": "8a6c456a-ab1e-47f9-a206-8ff4fb28f8ff"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pateldhruuuv&quot;
   }
-}]]></component>
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/CrimsonDevil8038/StockMarketPrerdictor.git&quot;,
+    &quot;accountId&quot;: &quot;8a6c456a-ab1e-47f9-a206-8ff4fb28f8ff&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 3
@@ -84,7 +91,8 @@
       <workItem from="1755196571990" duration="7131000" />
       <workItem from="1755239012120" duration="4745000" />
       <workItem from="1755284733512" duration="4359000" />
-      <workItem from="1755366436263" duration="1387000" />
+      <workItem from="1755366436263" duration="1460000" />
+      <workItem from="1755367959610" duration="44000" />
     </task>
     <servers />
   </component>

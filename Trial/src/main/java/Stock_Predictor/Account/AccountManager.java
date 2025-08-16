@@ -146,7 +146,7 @@ public class AccountManager {
         }
     }
 
-    boolean check_credentials(){
+    public boolean check_credentials(){
         int count =0;
         try{
             String password ="";
