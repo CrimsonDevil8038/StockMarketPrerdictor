@@ -1,4 +1,4 @@
-package Stock_Predictor;
+package Stock_Predictor.PortFolio;
 import Stock_Predictor.Account.AccountManager;
 import Stock_Predictor.JDBC.JDBC_Manager;
 

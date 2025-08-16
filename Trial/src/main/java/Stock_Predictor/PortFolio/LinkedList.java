@@ -1,6 +1,6 @@
-package Stock_Predictor;
+package Stock_Predictor.PortFolio;
 
-import java.util.Scanner;
+import Stock_Predictor.Portfolio;
 
 class Node {
     Portfolio data;
