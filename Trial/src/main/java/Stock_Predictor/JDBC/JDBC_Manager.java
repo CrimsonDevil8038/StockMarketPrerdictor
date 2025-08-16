@@ -13,7 +13,7 @@ public class JDBC_Manager {
     private final String create_Database = "Create Database Sem_2Pro;";
 
 
-    String getCreate_generalTable(String stockname) {
+    public String getCreate_generalTable(String stockname) {
         String tableName = stockname;
         String create_generalTable = "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                 " Date DATE PRIMARY KEY," +
@@ -56,7 +56,7 @@ public class JDBC_Manager {
         return User_data;
     }
 
-    boolean create_table_GeneralTable(String stockName) {
+    public boolean create_table_GeneralTable(String stockName) {
         try {
             Statement statement = connection.createStatement();
             return !statement.execute(getCreate_generalTable(stockName));
@@ -178,7 +178,7 @@ $$;
         }
     }
 
-    boolean insert_StockData(String name, Stock_Data stockData) {
+    public boolean insert_StockData(String name, Stock_Data stockData) {
 
         try {
             String sql = "Insert into " + name + " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)ON CONFLICT DO NOTHING";
@@ -312,8 +312,8 @@ $$;
 
     }
 
-    void insert_user(String username, String password, String pancard, String aadharcard,
-                     String mobile, Instant lastlogin) {
+    public void insert_user(String username, String password, String pancard, String aadharcard,
+                            String mobile, Instant lastlogin) {
         try {
             String sql = "Insert into users(username,password,pancard,aadharcard,mobile,lastlogin) values (?,?,?,?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -331,7 +331,7 @@ $$;
         }
     }
 
-    boolean check_data(String username, String password) {
+    public boolean check_data(String username, String password) {
         try {
             String sql = "Select password from users where username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

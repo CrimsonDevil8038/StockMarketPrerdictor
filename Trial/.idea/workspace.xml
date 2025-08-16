@@ -5,9 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95d23db2-6eee-4994-a4bc-ce242d870544" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Practice/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Practice.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/faq.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/DerivedIndicators.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/JDBC_Connection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/MACDResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/Prediction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/Stock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/Stock_Data.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/java/Stock_Predictor/global.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/Trial/src/main/resources/CSV_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/AccountManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/BollingerBands.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/CSV_Manager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/JDBC_Manager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/PortfolioViewer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practice/src/stock.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Account/AccountManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Account/AccountManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Portfolio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/Portfolio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/JDBC/JDBC_Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/JDBC/JDBC_Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Stock_Predictor/JDBC/JDBC_Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Stock_Predictor/JDBC/JDBC_Manager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +117,7 @@
       <workItem from="1755284733512" duration="4359000" />
       <workItem from="1755366436263" duration="1460000" />
       <workItem from="1755367959610" duration="44000" />
+      <workItem from="1755373975859" duration="692000" />
     </task>
     <servers />
   </component>

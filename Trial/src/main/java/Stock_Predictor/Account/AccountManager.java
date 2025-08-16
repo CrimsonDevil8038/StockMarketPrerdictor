@@ -95,7 +95,7 @@ public class AccountManager {
         return Instant.now();
     }
 
-    void data() {
+    public void data() {
 
         try {
             String usename = "";
