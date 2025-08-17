@@ -164,35 +164,35 @@ public class JDBC_Manager {
         // CORRECTED: Added a comma before SMA_20Volume and set correct data type.
         return "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                 " Date DATE PRIMARY KEY," +
-                " Open NUMERIC(10,3)," +
-                " High NUMERIC(10,3)," +
-                " Low NUMERIC(10,3)," +
-                " Close NUMERIC(10,3)," +
-                " Volume NUMERIC(15,2)," +
-                " VWAP NUMERIC(10,3)," +
-                " TypicalPrice NUMERIC(10,3)," +
-                " SMA_5 NUMERIC(10,3)," +
-                " SMA_10 NUMERIC(10,3)," +
-                " SMA_15 NUMERIC(10,3)," +
-                " SMA_50 NUMERIC(10,3)," +
-                " SMA_100 NUMERIC(10,3)," +
-                " SMA_200 NUMERIC(10,3)," +
-                " EMA_5 NUMERIC(10,3)," +
-                " EMA_10 NUMERIC(10,3)," +
-                " EMA_15 NUMERIC(10,3)," +
-                " EMA_50 NUMERIC(10,3)," +
-                " EMA_100 NUMERIC(10,3)," +
-                " EMA_200 NUMERIC(10,3)," +
-                " RSI_14 NUMERIC(10,3)," +
-                " RSI_30 NUMERIC(10,3)," +
-                " MACDLine NUMERIC(10,3)," +
-                " SignalLine NUMERIC(10,3)," +
-                " upperBand NUMERIC(10,3)," +
-                " middleBand NUMERIC(10,3)," +
-                " lowerBand NUMERIC(10,3)," +
-                " Stochastic NUMERIC(10,3)," +
-                " SMA_20Volume NUMERIC(15,2)," +
-                " VolDevNorm NUMERIC(10,3)" +
+                " Open NUMERIC(20,4)," +
+                " High NUMERIC(20,4)," +
+                " Low NUMERIC(20,4)," +
+                " Close NUMERIC(20,4)," +
+                " Volume NUMERIC(25,0)," +
+                " VWAP NUMERIC(20,4)," +
+                " TypicalPrice NUMERIC(20,4)," +
+                " SMA_5 NUMERIC(20,4)," +
+                " SMA_10 NUMERIC(20,4)," +
+                " SMA_15 NUMERIC(20,4)," +
+                " SMA_50 NUMERIC(20,4)," +
+                " SMA_100 NUMERIC(20,4)," +
+                " SMA_200 NUMERIC(20,4)," +
+                " EMA_5 NUMERIC(20,4)," +
+                " EMA_10 NUMERIC(20,4)," +
+                " EMA_15 NUMERIC(20,4)," +
+                " EMA_50 NUMERIC(20,4)," +
+                " EMA_100 NUMERIC(20,4)," +
+                " EMA_200 NUMERIC(20,4)," +
+                " RSI_14 NUMERIC(20,4)," +
+                " RSI_30 NUMERIC(20,4)," +
+                " MACDLine NUMERIC(20,4)," +
+                " SignalLine NUMERIC(20,4)," +
+                " upperBand NUMERIC(20,4)," +
+                " middleBand NUMERIC(20,4)," +
+                " lowerBand NUMERIC(20,4)," +
+                " Stochastic NUMERIC(20,4)," +
+                " SMA_20Volume NUMERIC(25,4)," +
+                " VolDevNorm NUMERIC(20,4)" +
                 ");";
     }
 

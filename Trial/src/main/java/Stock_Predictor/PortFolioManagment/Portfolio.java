@@ -1,4 +1,4 @@
-package Stock_Predictor.PortFolio;
+package Stock_Predictor.PortFolioManagment;
 import Stock_Predictor.Account.AccountManager;
 import Stock_Predictor.JDBC.JDBC_Manager;
 
@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-class Portfolio {
+public class Portfolio {
     static JDBC_Manager JDBC_Manager;
     static AccountManager accountManager;
     String stockname;
@@ -34,7 +34,7 @@ class Portfolio {
                 '}';
     }
 
-    double getCurrent_price(String stockname) {
+    public double getCurrent_price(String stockname) {
         try (Connection conn = JDBC_Manager.getConnection()) {
             String sql = "SELECT Close FROM " + stockname + " ORDER BY Date DESC LIMIT 1";
             Statement st = conn.createStatement();
@@ -48,7 +48,7 @@ class Portfolio {
         return 0.0;
     }
 
-    LinkedList getPortfolios(String username) {
+    public LinkedList getPortfolios(String username) {
         LinkedList portfolios = new LinkedList();
         if (!accountManager.check_credentials()) {
             System.out.println("Authentication failed for user: " + username);
@@ -71,7 +71,7 @@ class Portfolio {
         return portfolios;
     }
 
-    void displayportfolios(String username) {
+    public void displayportfolios(String username) {
         LinkedList portfolio = getPortfolios(username);
         if (portfolio.isEmpty()) {
             System.out.println("No holdings found for user: " + username);

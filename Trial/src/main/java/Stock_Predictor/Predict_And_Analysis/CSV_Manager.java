@@ -83,7 +83,7 @@ public class CSV_Manager {
                 {"Open", "Open ", "Opening Price", "O", "Open Price"},
                 {"High", "High ", "Day High", "High Price"},
                 {"Low", "Low ", "Day Low", "Low Price"},
-                {"Close", "Close ", "Closing Price", "C", "Close Price"},
+                {"Close", "Close ", "Closing Price", "C", "Close Price","Close/Last"},
                 {"Volume", "Shares Traded", "Volume ", "Shares Traded ", "No.of Shares", "Total Traded Quantity", "Traded Qty", "Qty", "Shares Traded", "Total Volume", "Volume Traded", "Traded Volume"}
         };
         int z = 0;

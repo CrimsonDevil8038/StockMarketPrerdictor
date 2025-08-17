@@ -1,6 +1,5 @@
-package Stock_Predictor.PortFolio;
+package Stock_Predictor.PortFolioManagment;
 
-import Stock_Predictor.Portfolio;
 
 class Node {
     Portfolio data;
@@ -12,7 +11,7 @@ class Node {
 }
 public class LinkedList {
     Node head;
-    void addfirst(Portfolio x) {
+    public void addfirst(Portfolio x) {
         Node n = new Node(x);
         if (head == null) {
             head = n;
@@ -22,7 +21,7 @@ public class LinkedList {
         }
     }
 
-    void addLast(Portfolio x) {
+    public void addLast(Portfolio x) {
         Node n = new Node(x);
         if (head == null) {
             head = n;
@@ -35,7 +34,7 @@ public class LinkedList {
         }
     }
 
-    void deletefirst() {
+    public void deletefirst() {
         if (head == null) {
             System.out.println("underflow");
         } else {
@@ -43,7 +42,7 @@ public class LinkedList {
         }
     }
 
-    void deletelast() {
+    public void deletelast() {
         if (head == null) {
             System.out.println("underflow");
         } else if (head.next == null) {
@@ -58,7 +57,7 @@ public class LinkedList {
         }
     }
 
-    void display() {
+    public void display() {
         if (head == null) {
             System.out.println("List is empty.");
         } else {
@@ -71,7 +70,7 @@ public class LinkedList {
             System.out.println("null");
         }
     }
-    void insertBeforeValue(Portfolio x, Portfolio value) {
+    public void insertBeforeValue(Portfolio x, Portfolio value) {
         int flag = 0;
 
         if (head == null) {
@@ -109,7 +108,7 @@ public class LinkedList {
             }
         }
     }
-    void insertAfterValue(Portfolio x, Portfolio value) //created a method toadd the value after a particular value in the linked list//
+    public void insertAfterValue(Portfolio x, Portfolio value) //created a method toadd the value after a particular value in the linked list//
     {
         int flag = 0;
         if (head == null)
@@ -157,7 +156,7 @@ public class LinkedList {
             }
         }
     }
-    void deleteValue(Portfolio value)
+    public void deleteValue(Portfolio value)
     {
         int flag = 0;
         if (head == null)
@@ -203,7 +202,7 @@ public class LinkedList {
             }
         }
     }
-    boolean isEmpty(){
+    public boolean isEmpty(){
         if(head==null){
             return true;
         }
