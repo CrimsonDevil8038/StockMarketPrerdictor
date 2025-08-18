@@ -9,7 +9,7 @@ public class JDBC_Connection {
     public static Connection SQLConnection() {
         String URL = "jdbc:postgresql://localhost:5432/sem_2pro";
         String USER = "postgres";
-        String PASSWORD = "Shlok@0812";
+        String PASSWORD = "#Dhruv13";
 
         Connection connection = null;
         try {
