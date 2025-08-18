@@ -16,7 +16,6 @@ public class JDBC_Connection {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
             if (connection != null && !connection.isClosed()) {
-                System.out.println("\u001B[32mConnected to the database successfully.\u001B[0m");
 
             }
 

@@ -19,7 +19,7 @@ public class Test {
 
 
 //        jdbcManager.listTables();
-        csvManager.readCSV("D:\\Download\\Tata Motors.csv", "Tatamotors");
+        csvManager.readCSV("C:\\Users\\patel\\Downloads\\HistoricalData_1755406575132.csv", "TCS");
 
 
 

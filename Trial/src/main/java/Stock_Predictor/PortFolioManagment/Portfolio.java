@@ -23,6 +23,10 @@ public class Portfolio {
         this.profit = (current_price - purchase_price) * quantity;
     }
 
+    public Portfolio() {
+
+    }
+
     @Override
     public String toString() {
         return "Portfolio{" +
@@ -35,6 +39,7 @@ public class Portfolio {
     }
 
     public double getCurrent_price(String stockname) {
+        stockname += "Stock_"+stockname;
         try (Connection conn = JDBC_Manager.getConnection()) {
             String sql = "SELECT Close FROM " + stockname + " ORDER BY Date DESC LIMIT 1";
             Statement st = conn.createStatement();
@@ -50,10 +55,6 @@ public class Portfolio {
 
     public LinkedList getPortfolios(String username) {
         LinkedList portfolios = new LinkedList();
-        if (!accountManager.check_credentials()) {
-            System.out.println("Authentication failed for user: " + username);
-            return portfolios;
-        }
         try (Connection conn = JDBC_Manager.getConnection()) {
             String sql = "SELECT Stock, Quantity, Purchase_Price FROM " + username;
             Statement st = conn.createStatement();
@@ -72,6 +73,7 @@ public class Portfolio {
     }
 
     public void displayportfolios(String username) {
+        username += "USER_"+username;
         LinkedList portfolio = getPortfolios(username);
         if (portfolio.isEmpty()) {
             System.out.println("No holdings found for user: " + username);
@@ -79,5 +81,17 @@ public class Portfolio {
         }
         System.out.println("Holdings found for user: " + username);
         System.out.println(portfolio.toString());
+    }
+
+    public void buy(String username){
+        username += "USER_"+username;
+        LinkedList portfolio = getPortfolios(username);
+    }
+
+    public  void sell(String username){
+        LinkedList portfolio = getPortfolios(username);
+
+        //portfolio.deleteValue();
+
     }
 }
