@@ -23,6 +23,7 @@ public class AccountManager {
     }
 
     private boolean check_Password(String password) {
+        System.out.println("Please Enter Password of Minimum of 8 Length");
         if (password.length() >= 8) {
             return true;
         } else {
@@ -153,13 +154,14 @@ public class AccountManager {
         try{
             String password ="";
             boolean check = true;
+            String fname;
 
             do {
                 if(count>0){
                     System.err.println("Enter Valid Details");
                 }
                 System.out.print("Enter First Name: ");
-                String fname = scanner.next();
+                fname = scanner.next();
 
                 System.out.print("Enter Surname: ");
                 String sname = scanner.next();
@@ -178,6 +180,7 @@ public class AccountManager {
                 }while (check);
 
             if (check == false){
+                jdbcManager.create_User(fname);
                 return  true;
             }
             else {

@@ -2,10 +2,10 @@ package Stock_Predictor;
 
 import Stock_Predictor.Account.AccountManager;
 import Stock_Predictor.JDBC.JDBC_Manager;
-import Stock_Predictor.PortFolioManagment.Portfolio;
+//import Stock_Predictor.PortFolioManagment.Portfolio;
 import Stock_Predictor.Predict_And_Analysis.CSV_Manager;
 import Stock_Predictor.Predict_And_Analysis.DataPreparation;
-import Stock_Predictor.PortFolioManagment.Portfolio;
+//import Stock_Predictor.PortFolioManagment.Portfolio;
 
 import java.sql.Date;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class Main {
     static CSV_Manager csvManager = new CSV_Manager();
     static DataPreparation dataPreparation = new DataPreparation();
     static JDBC_Manager jdbcManager = new JDBC_Manager();
-    static Portfolio portfolio = new Portfolio();
+//    static Portfolio portfolio = new Portfolio(jdbcManager, scanner);
 
     static void basic() {
         jdbcManager.create_Rest();
@@ -63,50 +63,50 @@ public class Main {
     static void stock_main(String username) {
         int n;
         do {
-            System.out.println("Press 1 for Global Insight Box");
-            System.out.println("Press 2 for Predict and Analysis");
-            System.out.println("Press 3 for View Portfolio");
-            System.out.println("Press 4 for Stock Exchange");
-            System.out.println("Press 5  to Exit");
+//            System.out.println("Press 1 for Global Insight Box");
+            System.out.println("Press 1 for Predict and Analysis");
+            System.out.println("Press 2 for View Portfolio");
+            System.out.println("Press 3 for Stock Exchange");
+            System.out.println("Press 4  to Exit");
             System.out.print("Enter Choice: ");
             n = scanner.nextInt();
 
             switch (n) {
+//                case 1: {
+//                    int m;
+//                    do {
+//                        System.out.println("Press 1 for FAQs");
+//                        System.out.println("Press 2 to Ask Question");
+//                        System.out.println("Press 3 to view Answer to Previous Questions");
+//                        System.out.println("Press 4 to Exit");
+//                        System.out.print("Enter Choice: ");
+//                        m = scanner.nextInt();
+//
+//                        switch (m) {
+//                            case 1: {
+//                                break;
+//                            }
+//                            case 2: {
+//                                break;
+//                            }
+//                            case 3: {
+//                                break;
+//                            }
+//                            case 4: {
+//                                System.out.println("Exitting Submenu");
+//                                break;
+//                            }
+//                            default: {
+//                                System.out.println("Enter Valid Value");
+//                            }
+//                        }
+//
+//                    } while (m != 4);
+//
+//                    break;
+//                }
+
                 case 1: {
-                    int m;
-                    do {
-                        System.out.println("Press 1 for FAQs");
-                        System.out.println("Press 2 to Ask Question");
-                        System.out.println("Press 3 to view Answer to Previous Questions");
-                        System.out.println("Press 4 to Exit");
-                        System.out.print("Enter Choice: ");
-                        m = scanner.nextInt();
-
-                        switch (m) {
-                            case 1: {
-                                break;
-                            }
-                            case 2: {
-                                break;
-                            }
-                            case 3: {
-                                break;
-                            }
-                            case 4: {
-                                System.out.println("Exitting Submenu");
-                                break;
-                            }
-                            default: {
-                                System.out.println("Enter Valid Value");
-                            }
-                        }
-
-                    } while (m != 4);
-
-                    break;
-                }
-
-                case 2: {
                     int m;
                     do {
                         System.out.println("Press 1 to Import New Stock Value");
@@ -139,16 +139,16 @@ public class Main {
 
                 }
 
-                case 3: {
-                    portfolio.displayportfolios(username);
+                case 2: {
+//                    portfolio.displayPortfolios(username);
                     break;
                 }
 
-                case 4: {
+                case 3: {
                     stockExchangeMenu(username);
                     break;
                 }
-                case 5: {
+                case 4: {
                     System.out.println("Exiting Submenu");
                 }
                 default: {
@@ -156,7 +156,7 @@ public class Main {
                 }
 
             }
-        } while (n != 5);
+        } while (n != 4);
 
 
     }
@@ -200,6 +200,7 @@ public class Main {
     }
 
     static void case_22() {
+        jdbcManager.Stock_tables();
         System.out.println("\n--- Prediction Model ---");
         System.out.print("Enter the name of the stock to predict (e.g., TCS): ");
         String stockName = scanner.next().toUpperCase();
@@ -265,15 +266,16 @@ public class Main {
             choice = scanner.nextInt();
 
             switch (choice) {
-                case 1:
-                    portfolio.displayportfolios(username);
-                    break;
-                case 2:
-                    portfolio.buy(username);
-                    break;
-                case 3:
-                    portfolio.sell(username);
-                    break;
+//                case 1:
+//                    portfolio.displayPortfolios(username);
+//                    break;
+//                case 2:
+//                    jdbcManager.viewStock_Tables();
+//                    portfolio.buy(username);
+//                    break;
+//                case 3:
+//                    portfolio.sell(username);
+//                    break;
                 case 4:
                     System.out.println("Returning to main stock menu...");
                     break;
