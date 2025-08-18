@@ -194,7 +194,7 @@ public class DataPreparation {
             if (epoch % 25 == 0) {
                 double trainMse = calculateMSE(x_train, y_train, weights, bias);
                 double valMse = calculateMSE(x_val, y_val, weights, bias);
-                System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
+//                System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
 
                 if (valMse < bestValLoss) {
                     bestValLoss = valMse;
@@ -399,7 +399,7 @@ public class DataPreparation {
             if (epoch % 50 == 0) {
                 double trainMse = calculateMSE(x_train_long, y_train_long, longTermWeights, longTermBias);
                 double valMse = calculateMSE(x_val_long, y_val_long, longTermWeights, longTermBias);
-                System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
+//                System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
 
                 if (valMse < bestValLoss) {
                     bestValLoss = valMse;
