@@ -6,6 +6,8 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class JDBC_Manager {
 
@@ -26,7 +28,7 @@ public class JDBC_Manager {
 
 
 
-    boolean create_User(String Name) {
+    public boolean create_User(String Name) {
         try {
             Statement statement = connection.createStatement();
             return !statement.execute(getUser_data(Name));
@@ -35,7 +37,7 @@ public class JDBC_Manager {
         }
     }
 
-    boolean create_Rest() {
+    public boolean create_Rest() {
         try {
             String table_Users = "Create Table If Not Exists USERS(" +
                     "UserId serial PRIMARY KEY,Username varchar(50),Password varchar(50)," +
@@ -56,77 +58,9 @@ public class JDBC_Manager {
         }
     }
 
+
     public Date toCall_Dataformatter(String dateString) {
-        /*
-       CREATE OR REPLACE FUNCTION DateFormatter(date_string TEXT)
-        RETURNS DATE
-        LANGUAGE plpgsql
-        AS $$
-        DECLARE
-            -- Variable to hold the successfully converted date.
-            converted_date DATE;
-        BEGIN
-            -- Return NULL immediately if input is NULL or empty to avoid unnecessary processing.
-            IF date_string IS NULL OR date_string = '' THEN
-                RETURN NULL;
-            END IF;
 
-            -- Attempt 1: ISO Format (YYYY-MM-DD)
-            -- This is the standard and should be tried first.
-            BEGIN
-                converted_date := TO_DATE(date_string, 'YYYY-MM-DD');
-                RETURN converted_date;
-            EXCEPTION WHEN others THEN
-                -- If it fails, silently continue to the next format.
-            END;
-
-            -- Attempt 2: Abbreviated Month (e.g., '1-Jul-24' or '01-Jul-2024')
-            BEGIN
-                converted_date := TO_DATE(date_string, 'DD-Mon-YY');
-                RETURN converted_date;
-            EXCEPTION WHEN others THEN
-                -- Continue.
-            END;
-
-            -- Attempt 3: Full Month Name (e.g., '8-August-2024')
-            BEGIN
-                converted_date := TO_DATE(date_string, 'DD-Month-YYYY');
-                RETURN converted_date;
-            EXCEPTION WHEN others THEN
-                -- Continue.
-            END;
-
-            -- Attempt 4: Common US Format (e.g., '08/25/2024')
-            BEGIN
-                converted_date := TO_DATE(date_string, 'MM/DD/YYYY');
-                RETURN converted_date;
-            EXCEPTION WHEN others THEN
-                -- Continue.
-            END;
-
-            -- Attempt 5: Common European Format (e.g., '25/08/2024')
-            BEGIN
-                converted_date := TO_DATE(date_string, 'DD/MM/YYYY');
-                RETURN converted_date;
-            EXCEPTION WHEN others THEN
-                -- Continue.
-            END;
-
-            -- Attempt 6: Textual Month (e.g., 'August 8, 2024')
-            BEGIN
-                converted_date := TO_DATE(date_string, 'Month DD, YYYY');
-                RETURN converted_date;
-            EXCEPTION WHEN others THEN
-                -- Continue.
-            END;
-
-            -- If all attempts have failed, the format is unrecognized.
-            -- Return NULL to indicate failure to parse.
-            RETURN NULL;
-        END;
-        $$;
-
-         */
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT DateFormatter(?)");
             preparedStatement.setString(1, dateString);
@@ -159,9 +93,47 @@ public class JDBC_Manager {
         }
     }
 
+    public boolean check(String name){
+        DatabaseMetaData dbMeta = null;
+        try {
+            dbMeta = connection.getMetaData();
+            ResultSet rs = dbMeta.getTables(connection.getCatalog(), "", null, new String[]{"TABLE"});
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                if(tableName.equalsIgnoreCase(name)){
+                    return  true;
+                }
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void Stock_tables(String name){
+        DatabaseMetaData dbMeta = null;
+        try {
+            dbMeta = connection.getMetaData();
+            ResultSet rs = dbMeta.getTables(connection.getCatalog(), "", null, new String[]{"TABLE"});
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                if(tableName.contains("stock_")){
+                    System.out.println("Table: "+tableName);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+
+
     String getCreate_generalTable(String stockname) {
         String tableName = "STOCK_" + stockname;
-        // CORRECTED: Added a comma before SMA_20Volume and set correct data type.
+
         return "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                 " Date DATE PRIMARY KEY," +
                 " Open NUMERIC(20,4)," +
@@ -192,7 +164,7 @@ public class JDBC_Manager {
                 " lowerBand NUMERIC(20,4)," +
                 " Stochastic NUMERIC(20,4)," +
                 " SMA_20Volume NUMERIC(25,4)," +
-                " VolDevNorm NUMERIC(20,4)" +
+                " VolDevNorm NUMERIC(20,3)" +
                 ");";
     }
 
@@ -208,7 +180,7 @@ public class JDBC_Manager {
 
     public boolean insert_StockData(String name, Stock_Data stockData) {
         String tableName = "STOCK_" + name;
-        // Updated to 29 columns
+
         String sql = "INSERT INTO " + tableName + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT (Date) DO NOTHING";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -505,34 +477,56 @@ public class JDBC_Manager {
     }
 
 
-    private double getMinValue(String stock_name, int timeperiod, Date date, String column) {
-        try {
-            String sql = "SELECT MIN(" + column + ") FROM " + stock_name +
-                    " WHERE date <= ? AND date >= ? - INTERVAL '" + timeperiod + " day'";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setDate(1, date);
-            ps.setDate(2, date);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getDouble(1);
-        } catch (Exception e) {
+    public double getMinValue(String stock_name,  int timeperiod, Date endDate,String column) {
+        // Calculate start date in Java
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(endDate);
+        cal.add(Calendar.DAY_OF_MONTH, -timeperiod);
+        Date startDate = new java.sql.Date(cal.getTimeInMillis());
+
+        String sql = "SELECT MIN(" + column + ") FROM " + stock_name +
+                " WHERE date <= ? AND date >= ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setDate(1, endDate);     // predata1 in your case
+            pstmt.setDate(2, startDate);   // endDate - timeperiod days
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return 0.0;
     }
 
     private double getMaxValue(String stock_name, int timeperiod, Date date, String column) {
-        try {
-            String sql = "SELECT MAX(" + column + ") FROM " + stock_name +
-                    " WHERE date <= ? AND date >= ? - INTERVAL '" + timeperiod + " day'";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setDate(1, date);
-            ps.setDate(2, date);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getDouble(1);
+        // Calculate start date in Java to avoid PostgreSQL INTERVAL issues
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, -timeperiod);
+        Date startDate = new java.sql.Date(cal.getTimeInMillis());
+
+        String sql = "SELECT MAX(" + column + ") FROM " + stock_name +
+                " WHERE date <= ? AND date >= ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setDate(1, date);      // End date
+            ps.setDate(2, startDate); // Start date (calculated)
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        return 0.0;
     }
 
     public Date getFormattedDate(String dateString) {
@@ -581,42 +575,31 @@ public class JDBC_Manager {
         }
     }
 
-    public int get_daysBetween(Date date1,Date date2) {
-        try {
-            String sql = "SELECT ABS(EXTRACT(DAY FROM AGE(? , ?)))";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setDate(1, date1);
-            preparedStatement.setDate(2, date2);
+    public Date getPreviousDate(Date currentDate, String stockTableName) {
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
+        String sql = "SELECT MAX(date) FROM " + stockTableName + " WHERE date < ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setDate(1, currentDate);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Return the found date
+                    return rs.getDate(1);
+                }
             }
-            return 0;
+
+
+            return null;
+
         } catch (SQLException e) {
-            throw new RuntimeException("Error calculating days between dates", e);
+            throw new RuntimeException("Error getting previous date from table " + stockTableName, e);
         }
     }
 
-    public Date getPreviousDate(Date inputDate) {
-        try {
-            String sql = "{ ? = call get_previous_date(?) }";
-            CallableStatement callableStatement = connection.prepareCall(sql);
 
-            callableStatement.registerOutParameter(1, java.sql.Types.DATE);
-            callableStatement.setDate(2, inputDate);
-
-            callableStatement.execute();
-
-            return callableStatement.getDate(1);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // Generic method to avoid repetitive code
     private double getColumnValueOnDate(String stockName, String columnName, Date date) {
         try {
             String sql = "SELECT " + columnName + " FROM " + stockName + " WHERE date = ?";
@@ -764,6 +747,22 @@ public class JDBC_Manager {
     public double getVolDevNormOnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "VolDevNorm", date);
     }
+
+    public int getTradingDayCount(String stock) {
+        String sql = "SELECT COUNT(*) FROM "+stock;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error counting trading days", e);
+        }
+    }
+
+
 
 
 

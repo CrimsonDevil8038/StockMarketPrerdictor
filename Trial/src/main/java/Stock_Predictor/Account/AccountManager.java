@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class AccountManager {
     private String username;
     Scanner scanner = new Scanner(System.in);
+    JDBC_Manager jdbcManager = new JDBC_Manager();
 
     private boolean check_UserName(String name) {
 
@@ -61,7 +62,7 @@ public class AccountManager {
     }
 
     private boolean check_AadharCard(String aadharcard) {
-        if (aadharcard.length() == 11) {
+        if (aadharcard.length() == 12) {
             for (int i = 0; i < aadharcard.length(); i++) {
                 if ((aadharcard.charAt(i) >= '0' && aadharcard.charAt(i) <= '9')) {
                     continue;
@@ -139,7 +140,8 @@ public class AccountManager {
 
             } while (!check_Password(password));
 
-            new JDBC_Manager().insert_user(usename, password, pancard, aadharcad, mobile, set_LastLogin());
+            jdbcManager.insert_user(usename, password, pancard, aadharcad, mobile, set_LastLogin());
+            jdbcManager.create_User(usename);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

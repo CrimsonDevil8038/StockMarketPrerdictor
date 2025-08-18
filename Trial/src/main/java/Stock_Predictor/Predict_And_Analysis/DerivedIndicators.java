@@ -27,10 +27,6 @@ public class DerivedIndicators {
         return totalVolume == 0 ? 0.0 : totalValue / totalVolume;
     }
 
-    /**
-     * Calculates the Simple Moving Average (SMA) of the closing price.
-     * This is a safer and more efficient implementation that does not modify the original list.
-     */
     public static double calculateSMA(List<Stock_Data> data, int period) {
         if (data == null || data.size() < period) {
             return 0.0; // Not enough data
@@ -47,16 +43,13 @@ public class DerivedIndicators {
         return sum / period;
     }
 
-    /**
-     * Calculates the Simple Moving Average (SMA) of the trading volume.
-     * This method is safe and efficient as it does not modify the original list.
-     */
+
     public static double calculateSMA_volume(List<Stock_Data> data, int period) {
         if (data == null || data.size() < period) {
             return 0.0; // Not enough data
         }
 
-        // Get the most recent data points without modifying the original list
+
         List<Stock_Data> recentData = data.subList(data.size() - period, data.size());
 
         double sum = 0.0;
@@ -67,45 +60,41 @@ public class DerivedIndicators {
         return sum / period;
     }
 
-    /**
-     * Calculates the Exponential Moving Average (EMA).
-     * This is a safer and more efficient implementation that does not modify the original list.
-     */
+
     public static double calculateEMA(List<Stock_Data> data, int period) {
         if (data == null || data.size() < period) {
             return 0.0;
         }
 
-        // Calculate initial SMA for the first period
+
         double initialSum = 0.0;
         for (int i = data.size() - period; i < data.size(); i++) {
             initialSum += data.get(i).getClose();
         }
         double sma = initialSum / period;
 
-        // If the data size is exactly the period, EMA is the SMA
+
         if (data.size() == period) {
             return sma;
         }
 
-        // Calculate EMA for the rest of the data
-        double multiplier = 2.0 / (period + 1.0);
-        double ema = sma; // Start with SMA as the first EMA
 
-        // This loop is simplified as we only need the final EMA value
-        // For a full EMA series, this would be different.
+        double multiplier = 2.0 / (period + 1.0);
+        double ema = sma;
+
+
         for (int i = data.size() - period + 1; i < data.size(); i++) {
             ema = (data.get(i).getClose() - ema) * multiplier + ema;
         }
 
-        // A more correct approach for a single EMA value on a series
+
         List<Double> closePrices = data.stream().map(Stock_Data::getClose).collect(Collectors.toList());
         double finalEma = calculateEMAFromPrices(closePrices, period);
 
         return finalEma;
     }
 
-    // Helper for EMA calculation on a list of prices
+
     private static double calculateEMAFromPrices(List<Double> prices, int period) {
         if (prices.size() < period) return 0.0;
 
@@ -130,7 +119,7 @@ public class DerivedIndicators {
         double totalGain = 0;
         double totalLoss = 0;
 
-        // Calculate initial average gain and loss
+
         for (int i = data.size() - period; i < data.size(); i++) {
             double change = data.get(i).getClose() - data.get(i - 1).getClose();
             if (change > 0) {
@@ -143,11 +132,10 @@ public class DerivedIndicators {
         double avgGain = totalGain / period;
         double avgLoss = totalLoss / period;
 
-        // This simplified RSI calculation is for the most recent period.
-        // A full implementation would smooth the averages over the entire dataset.
+
 
         if (avgLoss == 0) {
-            return 100.0; // Avoid division by zero
+            return 100.0;
         }
 
         double rs = avgGain / avgLoss;
@@ -226,7 +214,7 @@ public class DerivedIndicators {
         }
 
         if (highestHigh == lowestLow) {
-            return 50.0; // Avoid division by zero, return neutral value
+            return 50.0;
         }
 
         return 100 * ((currentClose - lowestLow) / (highestHigh - lowestLow));
@@ -238,30 +226,29 @@ public class DerivedIndicators {
             return 0.0;
         }
 
-        // 1. Calculate the SMA of the volume for the specified period.
         double smaVolume = calculateSMA_volume(data, period);
 
-        // 2. If SMA is zero, deviation is undefined. Return 0 to avoid errors.
+
         if (smaVolume == 0) {
             return 0.0;
         }
 
-        // 3. Get the volume for the most recent day (Vt).
+
         double currentVolume = data.get(data.size() - 1).getVolume();
 
-        // 4. Apply the formula and return the result.
+
         return (currentVolume - smaVolume) / smaVolume;
     }
 
 
     public static double calculateNormalizedVolumeDeviation(List<Stock_Data> data, int smaPeriod, int normalizationPeriod) {
-        // We need enough data for the first SMA calculation plus the full normalization window.
+
         if (data == null || data.size() < smaPeriod + normalizationPeriod) {
-            return 0.0; // Return a default value if data is insufficient.
+            return 0.0;
         }
 
         List<Double> volDevHistory = new ArrayList<>();
-        // 1. Calculate the Volume Deviation for each day in the normalization window.
+
         for (int i = 0; i < normalizationPeriod; i++) {
             int endIndex = data.size() - normalizationPeriod + 1 + i;
             List<Stock_Data> historicalSublist = data.subList(0, endIndex);
@@ -276,20 +263,20 @@ public class DerivedIndicators {
             return 0.0;
         }
 
-        // 2. Find the minimum and maximum deviation in the recent history.
+
         double minVolDev = Collections.min(volDevHistory);
         double maxVolDev = Collections.max(volDevHistory);
 
-        // 3. Get the most recent deviation value to be normalized.
+
         double currentVolDev = volDevHistory.get(volDevHistory.size() - 1);
 
-        // 4. Calculate the range. If range is zero, return a neutral value (0.5).
+
         double range = maxVolDev - minVolDev;
         if (range == 0) {
             return 0.5;
         }
 
-        // 5. Apply the normalization formula and return the result.
+
         return (currentVolDev - minVolDev) / range;
     }
 }
