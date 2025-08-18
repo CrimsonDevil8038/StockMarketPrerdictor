@@ -16,6 +16,7 @@ public class Test {
         AccountManager accountManager = new AccountManager();
 
         jdbcManager.create_User("Shlok");
+        csvManager.readCSV("C:\\Users\\patel\\Downloads\\Data\\Tata Motors.csv","TataMotors");
 
     }
 }

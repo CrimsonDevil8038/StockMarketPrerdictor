@@ -2,8 +2,10 @@ package Stock_Predictor;
 
 import Stock_Predictor.Account.AccountManager;
 import Stock_Predictor.JDBC.JDBC_Manager;
+import Stock_Predictor.PortFolioManagment.Portfolio;
 import Stock_Predictor.Predict_And_Analysis.CSV_Manager;
 import Stock_Predictor.Predict_And_Analysis.DataPreparation;
+import Stock_Predictor.PortFolioManagment.Portfolio;
 
 import java.sql.Date;
 import java.util.Scanner;
@@ -14,6 +16,7 @@ public class Main {
     static CSV_Manager csvManager = new CSV_Manager();
     static DataPreparation dataPreparation = new DataPreparation();
     static JDBC_Manager jdbcManager = new JDBC_Manager();
+    static Portfolio portfolio = new Portfolio();
 
     static void basic() {
         jdbcManager.create_Rest();
@@ -75,6 +78,7 @@ public class Main {
                         System.out.println("Press 1 for FAQs");
                         System.out.println("Press 2 to Ask Question");
                         System.out.println("Press 3 to view Answer to Previous Questions");
+                        System.out.println("Press 4 to Exit");
                         System.out.print("Enter Choice: ");
                         m = scanner.nextInt();
 
@@ -97,7 +101,7 @@ public class Main {
                             }
                         }
 
-                    } while (m != 3);
+                    } while (m != 4);
 
                     break;
                 }
@@ -136,6 +140,7 @@ public class Main {
                 }
 
                 case 3: {
+                    portfolio.displayportfolios(username);
                     break;
                 }
 
@@ -173,7 +178,7 @@ public class Main {
 
                     csvManager.readCSV(path, name);
                     name += "Stock_" + name;
-                    if (jdbcManager.check(name)) {
+                    if (!jdbcManager.check(name)) {
                         System.out.println("Data Inserted Successful");
                     } else {
                         System.out.println("Data Insertion Unsuccessful");
