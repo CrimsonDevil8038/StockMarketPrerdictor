@@ -1,5 +1,6 @@
 package Stock_Predictor.JDBC;
 
+import Stock_Predictor.PortFolioManagment.Portfolio;
 import Stock_Predictor.Predict_And_Analysis.Stock_Data;
 
 import java.sql.*;
@@ -762,6 +763,71 @@ public class JDBC_Manager {
         }
     }
 
+    public boolean deleteHolding(String userTable, String stockName) {
+        String sql = "DELETE FROM " + userTable + " WHERE \"stock\" = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, stockName);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error deleting holding: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateHoldingQuantity(String userTable, String stockName, int newQuantity) {
+        String sql = "UPDATE " + userTable + " SET \"quantity\" = ? WHERE \"stock\" = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newQuantity);
+            ps.setString(2, stockName);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error updating holding quantity: " + e.getMessage());
+            return false;
+        }
+    }
+    public boolean updateHolding(String userTable, String stockName, int newQuantity, double newAveragePrice) {
+        String sql = "UPDATE " + userTable + " SET \"quantity\" = ?, \"purchase_price\" = ? WHERE \"stock\" = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, newQuantity);
+            ps.setDouble(2, newAveragePrice);
+            ps.setString(3, stockName);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error updating holding: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean insertHolding(String userTable, String stockName, int quantity, double purchasePrice) {
+        String sql = "INSERT INTO " + userTable + " (\"stock\", \"quantity\", \"purchase_price\", \"purchase_time\") VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, stockName);
+            ps.setInt(2, quantity);
+            ps.setDouble(3, purchasePrice);
+            ps.setTimestamp(4, Timestamp.from(Instant.now()));
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error inserting holding: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public Portfolio getHolding(String userTable, String stockName) {
+        String sql = "SELECT \"quantity\", \"purchase_price\" FROM " + userTable + " WHERE \"stock\" = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, stockName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int quantity = rs.getInt("quantity");
+                double purchasePrice = rs.getDouble("purchase_price");
+                // Current price is not needed here for calculations, so we pass 0
+                return new Portfolio(stockName, quantity, purchasePrice, 0);
+            }
+        } catch (SQLException e) {
+            // This can happen if the table doesn't exist yet, which is fine.
+        }
+        return null;
+    }
 
 
 

@@ -145,6 +145,7 @@ public class Main {
                 }
 
                 case 4: {
+                    stockExchangeMenu(username);
                     break;
                 }
                 case 5: {
@@ -252,4 +253,34 @@ public class Main {
 
     }
 
+    static void stockExchangeMenu(String username) {
+        int choice;
+        do {
+            System.out.println("\n--- Stock Exchange ---");
+            System.out.println("1. View Your Portfolio");
+            System.out.println("2. Buy Stock");
+            System.out.println("3. Sell Stock");
+            System.out.println("4. Back to Main Stock Menu");
+            System.out.print("Enter Choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    portfolio.displayportfolios(username);
+                    break;
+                case 2:
+                    portfolio.buy(username);
+                    break;
+                case 3:
+                    portfolio.sell(username);
+                    break;
+                case 4:
+                    System.out.println("Returning to main stock menu...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        } while (choice != 4);
+    }
 }
