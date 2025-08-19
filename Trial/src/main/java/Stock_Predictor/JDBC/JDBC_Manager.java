@@ -504,7 +504,7 @@ public class JDBC_Manager {
     }
 
     private double getMaxValue(String stock_name, int timeperiod, Date date, String column) {
-        // Calculate start date in Java to avoid PostgreSQL INTERVAL issues
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DAY_OF_MONTH, -timeperiod);
