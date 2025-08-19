@@ -66,7 +66,7 @@ public class Main {
 //            System.out.println("Press 1 for Global Insight Box");
             System.out.println("Press 1 for Predict and Analysis");
             System.out.println("Press 2 for View Portfolio");
-            System.out.println("Press 3 for Stock Exchange");
+            System.out.println("Press 3 for Stock ");
             System.out.println("Press 4  to Exit");
             System.out.print("Enter Choice: ");
             n = scanner.nextInt();
