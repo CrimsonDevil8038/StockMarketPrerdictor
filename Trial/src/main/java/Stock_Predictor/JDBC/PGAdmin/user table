@@ -1,0 +1,9 @@
+
+
+
+
+
+INSERT INTO public.users (userid, username, password, pancard, aadharcard, mobile, lastlogin) VALUES (11, 'Shlok Patel', 'Shlok@0812', 'AAAAA1234A', '123456789012', '9876543210', '2025-08-21 08:48:14.026267');
+INSERT INTO public.users (userid, username, password, pancard, aadharcard, mobile, lastlogin) VALUES (13, 'dhruv patel', '#Dhruv13', 'BBBBB1234C', '132456789012', '8469832973', '2025-08-21 08:50:23.318133');
+INSERT INTO public.users (userid, username, password, pancard, aadharcard, mobile, lastlogin) VALUES (14, 'riya tank', '25913457', 'riyaz1234r', '123456789123', '9173040215', '2025-08-21 08:52:00.022445');
+INSERT INTO public.users (userid, username, password, pancard, aadharcard, mobile, lastlogin) VALUES (15, 'Vrutik H', 'zaq1xsw2', 'QWERT4567A', '098765432167', '5678901234', '2025-08-21 09:20:15.348169');

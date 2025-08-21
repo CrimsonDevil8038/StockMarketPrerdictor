@@ -1,0 +1,24 @@
+create function calculate_next_business_day(date date) returns date
+    language plpgsql
+as
+$$
+DECLARE
+    next_day DATE;
+    day_of_week INT;
+BEGIN
+    next_day := date + INTERVAL '1 day';
+
+    day_of_week := EXTRACT(DOW FROM next_day);
+
+    IF day_of_week = 6 THEN
+        next_day := next_day + INTERVAL '2 days';
+    ELSIF day_of_week = 0 THEN
+        next_day := next_day + INTERVAL '1 day';
+    END IF;
+
+    RETURN next_day;
+END;
+$$;
+
+alter function calculate_next_business_day(date) owner to postgres;
+

@@ -1,0 +1,19 @@
+create function get_previous_date(p_input_date date, p_table_name text) returns date
+    language plpgsql
+as
+$$
+DECLARE
+    previous_date DATE;
+BEGIN
+    EXECUTE format(
+            'SELECT MAX(date) FROM %I WHERE date < %L',
+            p_table_name,
+            p_input_date
+            ) INTO previous_date;
+
+    RETURN previous_date;
+END;
+$$;
+
+alter function get_previous_date(date, text) owner to postgres;
+

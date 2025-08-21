@@ -1,0 +1,14 @@
+create function get_trading_day_count(table_name text) returns integer
+    language plpgsql
+as
+$$
+DECLARE
+    day_count INTEGER;
+BEGIN
+    EXECUTE format('SELECT COUNT(*) FROM %I', table_name) INTO day_count;
+    RETURN day_count;
+END;
+$$;
+
+alter function get_trading_day_count(text) owner to postgres;
+

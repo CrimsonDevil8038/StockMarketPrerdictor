@@ -1,0 +1,2 @@
+INSERT INTO public.user_portfolio (userid, stock_name, quantity, purchase_price) VALUES (11, 'infosys', 12, 300.000);
+INSERT INTO public.user_portfolio (userid, stock_name, quantity, purchase_price) VALUES (15, 'infosys', 1, 50.000);

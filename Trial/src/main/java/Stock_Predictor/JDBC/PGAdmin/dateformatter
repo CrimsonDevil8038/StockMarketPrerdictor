@@ -1,0 +1,53 @@
+create function dateformatter(date_string text) returns date
+    language plpgsql
+as
+$$
+DECLARE
+    converted_date DATE;
+BEGIN
+    IF date_string IS NULL OR date_string = '' THEN
+        RETURN NULL;
+    END IF;
+
+    BEGIN
+        converted_date := TO_DATE(date_string, 'YYYY-MM-DD');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+    END;
+
+    BEGIN
+        converted_date := TO_DATE(date_string, 'DD-Mon-YY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+    END;
+
+    BEGIN
+        converted_date := TO_DATE(date_string, 'DD-Month-YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+    END;
+
+    BEGIN
+        converted_date := TO_DATE(date_string, 'MM/DD/YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+    END;
+
+    BEGIN
+        converted_date := TO_DATE(date_string, 'DD/MM/YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+    END;
+
+    BEGIN
+        converted_date := TO_DATE(date_string, 'Month DD, YYYY');
+        RETURN converted_date;
+    EXCEPTION WHEN others THEN
+    END;
+
+    RETURN NULL;
+END;
+$$;
+
+alter function dateformatter(text) owner to postgres;
+
