@@ -1,214 +1,109 @@
-//package Stock_Predictor.PortFolioManagment;
-//
-//
-//class Node {
-//    Portfolio data;
-//    Node next;
-//    Node(Portfolio x)
-//    {
-//        data=x;
-//    }
-//}
-//public class LinkedList {
-//    Node head;
-//    public void addfirst(Portfolio x) {
-//        Node n = new Node(x);
-//        if (head == null) {
-//            head = n;
-//        } else {
-//            n.next = head;
-//            head = n;
-//        }
-//    }
-//
-//    public void addLast(Portfolio x) {
-//        Node n = new Node(x);
-//        if (head == null) {
-//            head = n;
-//        } else {
-//            Node temp = head;
-//            while (temp.next != null) {
-//                temp = temp.next;
-//            }
-//            temp.next = n;
-//        }
-//    }
-//
-//    public void deletefirst() {
-//        if (head == null) {
-//            System.out.println("underflow");
-//        } else {
-//            head = head.next;
-//        }
-//    }
-//
-//    public void deletelast() {
-//        if (head == null) {
-//            System.out.println("underflow");
-//        } else if (head.next == null) {
-//            head = null;
-//        } else {
-//            Node temp = head;
-//            while (temp.next.next != null) {
-//                temp = temp.next;
-//            }
-//            temp.next = null;
-//
-//        }
-//    }
-//
-//    public void display() {
-//        if (head == null) {
-//            System.out.println("List is empty.");
-//        } else {
-//            Node temp = head;
-//            System.out.print("Linked List: ");
-//            while (temp != null) {
-//                System.out.print(temp.data + "-->");
-//                temp = temp.next;
-//            }
-//            System.out.println("null");
-//        }
-//    }
-//    public void insertBeforeValue(Portfolio x, Portfolio value) {
-//        int flag = 0;
-//
-//        if (head == null) {
-//            System.out.println("Linked list is empty");
-//        } else {
-//            Node temp1 = head;
-//            while (temp1 != null) {
-//                if (temp1.data == x) {
-//                    flag = 1;
-//                }
-//                temp1 = temp1.next;
-//            }
-//
-//            if (flag == 0) {
-//                System.out.println("The asked value is not inside the linked list");
-//            } else {
-//                Node n = new Node(value);
-//
-//                if (head.data == x)
-//                {
-//                    addfirst(value);
-//                }
-//                else if (head.data==x)
-//                {
-//                    addfirst(value);
-//                }
-//                else {
-//                    Node temp2 = head;
-//                    while (temp2.next.data != x) {
-//                        temp2 = temp2.next;
-//                    }
-//                    n.next = temp2.next;
-//                    temp2.next = n;
-//                }
-//            }
-//        }
-//    }
-//    public void insertAfterValue(Portfolio x, Portfolio value) //created a method toadd the value after a particular value in the linked list//
-//    {
-//        int flag = 0;
-//        if (head == null)
-//        {
-//            System.out.println("Linked is empty");
-//        }
-//        else
-//        {
-//            Node temp1 = head;
-//            while (temp1 != null)
-//            {
-//                if (temp1.data == x)
-//                {
-//                    flag = 1;
-//                }
-//                temp1 = temp1.next;
-//            }
-//
-//            if (flag == 0)
-//            {
-//                System.out.println("The asked value is not inside the linked list");
-//            }
-//            else
-//            {
-//                Node n = new Node(value);
-//                if (head.data == value && head.next == null)
-//                {
-//                    head.next = n;
-//                }
-//                else if (head.data == x)
-//                {
-//                    n.next = head.next;
-//                    head.next = n;
-//                }
-//                else
-//                {
-//                    Node temp2 = head;
-//                    while (temp2.data != x)
-//                    {
-//                        temp2 = temp2.next;
-//                    }
-//                    n.next = temp2.next;
-//                    temp2.next = n;
-//                }
-//            }
-//        }
-//    }
-//    public void deleteValue(Portfolio value)
-//    {
-//        int flag = 0;
-//        if (head == null)
-//        {
-//            System.out.println("Linked is empty");
-//        }
-//        else
-//        {
-//            Node temp1 = head;
-//
-//            while (temp1 != null)
-//            {
-//                if (temp1.data == value)
-//                {
-//                    flag = 1;
-//                }
-//                temp1 = temp1.next;
-//            }
-//
-//            if (flag == 0)
-//            {
-//                System.out.println("The asked value is not inside the linked list");
-//            }
-//            else
-//            {
-//                if (head.data == value && head.next == null)
-//                {
-//                    head = null;
-//                }
-//                else if (head.data == value)
-//                {
-//                    head = head.next;
-//                }
-//                else {
-//                    Node temp2 = head;
-//                    while (temp2.next.data != value) {
-//                        temp2 = temp2.next;
-//                    }
-//                    Node q = temp2.next;
-//                    temp2.next = q.next;
-//                    q = null;
-//                }
-//            }
-//        }
-//    }
-//    public boolean isEmpty(){
-//        if(head==null){
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
-//    }
-//}
-//
+package Stock_Predictor.PortFolioManagment;
+
+import java.sql.Date;
+import static Stock_Predictor.Color.*;
+
+class Node {
+    String stockname;
+    double purchaseprice;
+    double currentprice;
+    double predictedprice;
+    long quantity;
+    Date predictionDate;
+    Date curentDate;
+    Node next;
+
+    public Node(String stockname, double purchaseprice, double currentprice, double predictedprice, long quantity, Date predictionDate, Date curentDate) {
+        this.stockname = stockname;
+        this.purchaseprice = purchaseprice;
+        this.currentprice = currentprice;
+        this.predictedprice = predictedprice;
+        this.quantity = quantity;
+        this.predictionDate = predictionDate;
+        this.curentDate = curentDate;
+        this.next = null;
+    }
+}
+
+
+class LinkedList {
+    Node head;
+
+    void addLast(String stockname, double purchaseprice, double currentprice, double predictedprice, long quantity, Date predictionDate, Date curentDate) {
+        Node n = new Node(stockname, purchaseprice, currentprice, predictedprice, quantity, predictionDate, curentDate);
+        if (head == null) {
+            head = n;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = n;
+        }
+    }
+
+    void display() {
+        if (head == null) {
+            System.out.println("\n--- Your Portfolio is empty ---");
+            return;
+        }
+        Node temp = head;
+        System.out.println(GREEN+"\n--- Your Portfolio ---"+GREEN);
+        while (temp != null) {
+            System.out.println("=========================================================================");
+
+            String format1 = BLUE+"%-16s %-15s %-16s %-15d %-16s %-15.2f\n"+RESET;
+            System.out.printf(format1,
+                    "Stock Name:", temp.stockname,
+                    "Quantity:", temp.quantity,
+                    "Purchase Price:", temp.purchaseprice);
+
+            String format2 = BLUE+"%-16s %-15s %-16s %-15.2f\n"+RESET;
+            System.out.printf(format2,
+                    "Current Date:", temp.curentDate,
+                    "Current Price:", temp.currentprice);
+            System.out.printf(format2,
+                    "Prediction Date:", temp.predictionDate,
+                    "Prediction Price:", temp.predictedprice);
+            temp = temp.next;
+        }
+    }
+
+    long sellShares(String stockname, long quantityToSell) {
+        if (head == null) {
+            System.out.println(RED + "Portfolio is empty." + RESET);
+            return -1;
+        }
+
+        Node current = head;
+        Node previous = null;
+
+        while (current != null && !current.stockname.equalsIgnoreCase(stockname)) {
+            previous = current;
+            current = current.next;
+        }
+
+        if (current == null) {
+            System.out.println(RED + "Stock '" + stockname + "' not found in your portfolio." + RESET);
+            return -1;
+        }
+
+        if (current.quantity < quantityToSell) {
+            System.out.println(RED + "Error: Not enough shares to sell. You have " + current.quantity + " but tried to sell " + quantityToSell + "." + RESET);
+            return -2;
+        }
+
+        current.quantity -= quantityToSell;
+        System.out.println(GREEN + "Sold " + quantityToSell + " shares of " + stockname + ". New quantity: " + current.quantity + RESET);
+
+        if (current.quantity == 0) {
+            System.out.println(YELLOW + stockname + " removed from portfolio as quantity is zero." + RESET);
+            if (previous == null) {
+                head = current.next;
+            } else {
+                previous.next = current.next;
+            }
+        }
+        return current.quantity;
+    }
+}

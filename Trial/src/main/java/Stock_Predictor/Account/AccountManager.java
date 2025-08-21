@@ -1,14 +1,15 @@
 package Stock_Predictor.Account;
 
 import Stock_Predictor.JDBC.JDBC_Manager;
-
 import java.time.Instant;
 import java.util.Scanner;
 
+import static Stock_Predictor.Color.*;
+
 public class AccountManager {
-    private String username;
     Scanner scanner = new Scanner(System.in);
     JDBC_Manager jdbcManager = new JDBC_Manager();
+    private String username;
 
     private boolean check_UserName(String name) {
 
@@ -23,12 +24,11 @@ public class AccountManager {
     }
 
     private boolean check_Password(String password) {
-        System.out.println("Please Enter Password of Minimum of 8 Length");
-        if (password.length() >= 8) {
-            return true;
-        } else {
-            return false;
+
+        if (password.length()<8) {
+            System.out.println("Please Enter Password of Minimum of 8 Length");
         }
+        return (password.length() >= 8);
     }
 
     private boolean check_PanCard(String pancard) {
@@ -51,11 +51,7 @@ public class AccountManager {
                     return false;
                 }
             }
-            if ((pancard.charAt(i) >= 'a' && pancard.charAt(i) <= 'z') || (pancard.charAt(i) >= 'A' && pancard.charAt(i) <= 'Z')) {
-                return true;
-            } else {
-                return false;
-            }
+            return (pancard.charAt(i) >= 'a' && pancard.charAt(i) <= 'z') || (pancard.charAt(i) >= 'A' && pancard.charAt(i) <= 'Z');
         } else {
             return false;
         }
@@ -72,7 +68,7 @@ public class AccountManager {
                 }
             }
 
-            return  true;
+            return true;
         } else {
             return false;
         }
@@ -87,13 +83,13 @@ public class AccountManager {
                     return false;
                 }
             }
-            return  true;
+            return true;
         } else {
             return false;
         }
     }
 
-    private Instant set_LastLogin(){
+    private Instant set_LastLogin() {
         return Instant.now();
     }
 
@@ -139,62 +135,53 @@ public class AccountManager {
                 System.out.print("Enter Password: ");
                 password = scanner.next();
 
+
             } while (!check_Password(password));
 
-            jdbcManager.insert_user(usename, password, pancard, aadharcad, mobile, set_LastLogin());
-            jdbcManager.create_User(usename);
+            if (jdbcManager.insert_user(usename, password, pancard, aadharcad, mobile, set_LastLogin())) {
+                System.out.println(GREEN + "Signup Successful" + RESET);
+            } else {
+                throw new RuntimeException();
+            }
+
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "Signup Unsuccessful" + RESET);
+            System.out.println();
         }
     }
 
-    public boolean check_credentials(){
-        int count =0;
-        try{
-            String password ="";
-            boolean check = true;
-            String fname;
+    public boolean check_credentials() {
 
-            do {
-                if(count>0){
-                    System.err.println("Enter Valid Details");
-                }
-                System.out.print("Enter First Name: ");
-                fname = scanner.next();
+        for (int attempt = 1; attempt <= 3; attempt++) {
+            System.out.print("Enter First Name: ");
+            String fname = scanner.next();
 
-                System.out.print("Enter Surname: ");
-                String sname = scanner.next();
+            System.out.print("Enter Surname: ");
+            String sname = scanner.next();
 
-                username = fname + " " + sname;
+            String username = fname + " " + sname;
 
-                System.out.print("Enter Password: ");
-                password = scanner.next();
+            System.out.print("Enter Password: ");
+            String password = scanner.next();
 
-                count++;
 
-                if(new JDBC_Manager().check_data(username, password) && count<3){
-                    System.out.println("Login Successful");
-                    check =  false;
-                }
-                }while (check);
-
-            if (check == false){
-                jdbcManager.create_User(fname);
-                return  true;
+            if (jdbcManager.check_data(username, password)) {
+                System.out.println(GREEN + "Login Successful" + RESET);
+                this.username = username;
+                return true;
+            } else {
+                System.out.println(RED + "Invalid credentials. Please try again." + RESET);
             }
-            else {
-                return  false;
-            }
+        }
 
-
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        System.out.println(RED + "Too many failed login attempts." + RESET);
+        return false;
     }
 
     public String getUsername() {
         return username;
     }
+
+
 }

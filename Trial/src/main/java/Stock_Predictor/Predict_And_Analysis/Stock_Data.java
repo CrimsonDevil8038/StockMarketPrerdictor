@@ -68,14 +68,13 @@ Apply explicit rounding to a fixed number of decimal places before storing or di
         this.low = low;
         this.close = close;
         this.volume = volume;
-        // Initialize all derived fields to 0
+
         vwap = 0;
         typicalPrice = sma_5 = sma_10 = sma_15 = sma_50 = sma_100 = sma_200 = vwap;
         rsi_14 = rsi_30 = ema_5 = ema_10 = ema_15 = ema_50 = ema_100 = ema_200 = vwap;
         macdline = signalline = upperband = middleband = lowerband = stochastic = sma_20volume = vwap;
     }
 
-    // --- Getters and Setters ---
 
     public Date getOfficial_date() {
         return official_date;
@@ -316,6 +315,7 @@ Apply explicit rounding to a fixed number of decimal places before storing or di
     public void setSma_20volume(double sma_20volume) {
         this.sma_20volume = sma_20volume;
     }
+
     public double getVolDevNorm() {
         return volDevNorm;
     }
@@ -326,7 +326,6 @@ Apply explicit rounding to a fixed number of decimal places before storing or di
 
     @Override
     public String toString() {
-        // Updated to include sma_20volume
         return String.format(
                 "%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f",
                 official_date, open, high, low, close, volume, vwap, typicalPrice,

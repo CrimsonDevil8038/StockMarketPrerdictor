@@ -7,35 +7,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
+
+import static Stock_Predictor.Color.*;
 
 public class JDBC_Manager {
 
 
-    private final Connection connection = new JDBC_Connection().SQLConnection();
+    private final Connection connection = JDBC_Connection.SQLConnection();
 
-    private final String create_Database = "Create Database Sem_2Pro;";
-
-
-
-    String getUser_data(String username) {
-        username = "USER_"+username;
-        String User_data = "Create Table IF NOT EXISTS " + username + "(" +
-                "UserId serial PRIMARY KEY,Stock varchar(50),Quantity Integer,Purchase_Price Numeric,PurchaseTime TimeStamp" +
-                ");";
-        return User_data;
-    }
-
-
-
-    public boolean create_User(String Name) {
-        try {
-            Statement statement = connection.createStatement();
-            return !statement.execute(getUser_data(Name));
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public boolean create_Rest() {
         try {
@@ -44,19 +23,28 @@ public class JDBC_Manager {
                     "Pancard varchar(10) NOT NULL UNIQUE ,AadharCard varchar(12) NOT NULL UNIQUE,Mobile varchar(10) NOT NULL UNIQUE" +
                     ",lastlogin TIMESTAMP);";
 
-            String prediction_table = "Create Table If not Exists PredictionAcc(" +
-                    "Stock varchar(50),Prediction_Short numeric(3,2),Prediction_Long numeric(3,2)" +
+
+            String portfolio_history = "CREATE TABLE IF NOT EXISTS portfolio_history (\n" +
+                    " history_id SERIAL PRIMARY KEY," +
+                    " user_id VARCHAR(50) NOT NULL," +
+                    " stock VARCHAR(50) NOT NULL," +
+                    " action VARCHAR(10) NOT NULL," +
+                    " quantity_change INTEGER," +
+                    " price_per_share NUMERIC(20, 4)," +
+                    " transaction_time TIMESTAMP WITH TIME ZONE DEFAULT NOW()" +
                     ");";
 
             Statement statement = connection.createStatement();
-
             statement.execute(table_Users);
-            statement.execute(prediction_table);
+            statement.execute(portfolio_history);
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+
+
 
 
     public Date toCall_Dataformatter(String dateString) {
@@ -69,66 +57,47 @@ public class JDBC_Manager {
             return resultSet.getDate(1);
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "Unable to Format Date" + RESET);
+            return null;
         }
     }
 
 
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void listTables() {
+    public boolean check(String name) {
         DatabaseMetaData dbMeta = null;
         try {
             dbMeta = connection.getMetaData();
             ResultSet rs = dbMeta.getTables(connection.getCatalog(), "", null, new String[]{"TABLE"});
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
-                System.out.println(tableName);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean check(String name){
-        DatabaseMetaData dbMeta = null;
-        try {
-            dbMeta = connection.getMetaData();
-            ResultSet rs = dbMeta.getTables(connection.getCatalog(), "", null, new String[]{"TABLE"});
-            while (rs.next()) {
-                String tableName = rs.getString("TABLE_NAME");
-                if(tableName.equalsIgnoreCase(name)){
-                    return  true;
+                if (tableName.equalsIgnoreCase(name)) {
+                    return true;
                 }
             }
             return false;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            return true;
         }
     }
 
-    public void Stock_tables(){
+    public void Stock_tables() {
         DatabaseMetaData dbMeta = null;
         try {
             dbMeta = connection.getMetaData();
             ResultSet rs = dbMeta.getTables(connection.getCatalog(), "", null, new String[]{"TABLE"});
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
-                if(tableName.contains("stock_")){
-                    System.out.println("Table: "+tableName);
+                if (tableName.contains("stock_")) {
+                    String[] name = tableName.split("stock_");
+                    System.out.println("Table: " + BLUE + name[1] + RESET);
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "SQL Exception : Unable to list tables " + RESET);
+            return;
         }
     }
-
-
-
-
 
 
     String getCreate_generalTable(String stockname) {
@@ -173,7 +142,7 @@ public class JDBC_Manager {
             statement.execute(getCreate_generalTable(stockName));
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
             return false;
         }
     }
@@ -217,14 +186,14 @@ public class JDBC_Manager {
 
             return preparedStatement.executeUpdate() >= 0;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            return  false;
         }
     }
 
 
-
-    public void insert_user(String username, String password, String pancard, String aadharcard,
-                            String mobile, Instant lastlogin) {
+    public boolean insert_user(String username, String password, String pancard, String aadharcard,
+                               String mobile, Instant lastlogin) {
         try {
             String sql = "Insert into users(username,password,pancard,aadharcard,mobile,lastlogin) values (?,?,?,?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -235,10 +204,11 @@ public class JDBC_Manager {
             preparedStatement.setString(5, mobile);
             preparedStatement.setTimestamp(6, Timestamp.from(lastlogin));
 
-            preparedStatement.executeUpdate();
-            create_User(username);
+            return preparedStatement.executeUpdate() >= 0;
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            throw new RuntimeException();
         }
     }
 
@@ -254,231 +224,13 @@ public class JDBC_Manager {
             return password.equals(resultSet.getString(1));
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            return false;
         }
     }
 
 
-    public double get_minOpen(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "Open");
-    }
-
-    public double get_minHigh(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "High");
-    }
-
-    public double get_minLow(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "Low");
-    }
-
-    public double get_minClose(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "Close");
-    }
-
-    public double get_minVolume(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "Volume");
-    }
-
-    public double get_minVWAP(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "VWAP");
-    }
-
-    public double get_minTypicalPrice(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "TypicalPrice");
-    }
-
-    public double get_minSMA_5(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_5");
-    }
-
-    public double get_minSMA_10(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_10");
-    }
-
-    public double get_minSMA_15(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_15");
-    }
-
-    public double get_minSMA_50(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_50");
-    }
-
-    public double get_minSMA_100(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_100");
-    }
-
-    public double get_minSMA_200(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_200");
-    }
-
-    public double get_minEMA_5(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "EMA_5");
-    }
-
-    public double get_minEMA_10(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "EMA_10");
-    }
-
-    public double get_minEMA_15(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "EMA_15");
-    }
-
-    public double get_minEMA_50(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "EMA_50");
-    }
-
-    public double get_minEMA_100(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "EMA_100");
-    }
-
-    public double get_minEMA_200(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "EMA_200");
-    }
-
-    public double get_minRSI_14(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "RSI_14");
-    }
-
-    public double get_minRSI_30(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "RSI_30");
-    }
-
-    public double get_minMACDLine(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "MACDLine");
-    }
-
-    public double get_minSignalLine(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SignalLine");
-    }
-
-    public double get_minUpperBand(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "upperBand");
-    }
-
-    public double get_minMiddleBand(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "middleBand");
-    }
-
-    public double get_minLowerBand(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "lowerBand");
-    }
-
-    public double get_minStochastic(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "Stochastic");
-    }
-
-
-    public double get_maxOpen(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "Open");
-    }
-
-    public double get_maxHigh(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "High");
-    }
-
-    public double get_maxLow(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "Low");
-    }
-
-    public double get_maxClose(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "Close");
-    }
-
-    public double get_maxVolume(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "Volume");
-    }
-
-    public double get_maxVWAP(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "VWAP");
-    }
-
-    public double get_maxTypicalPrice(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "TypicalPrice");
-    }
-
-    public double get_maxSMA_5(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_5");
-    }
-
-    public double get_maxSMA_10(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_10");
-    }
-
-    public double get_maxSMA_15(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_15");
-    }
-
-    public double get_maxSMA_50(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_50");
-    }
-
-    public double get_maxSMA_100(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_100");
-    }
-
-    public double get_maxSMA_200(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_200");
-    }
-
-    public double get_maxEMA_5(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "EMA_5");
-    }
-
-    public double get_maxEMA_10(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "EMA_10");
-    }
-
-    public double get_maxEMA_15(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "EMA_15");
-    }
-
-    public double get_maxEMA_50(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "EMA_50");
-    }
-
-    public double get_maxEMA_100(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "EMA_100");
-    }
-
-    public double get_maxEMA_200(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "EMA_200");
-    }
-
-    public double get_maxRSI_14(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "RSI_14");
-    }
-
-    public double get_maxRSI_30(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "RSI_30");
-    }
-
-    public double get_maxMACDLine(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "MACDLine");
-    }
-
-    public double get_maxSignalLine(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SignalLine");
-    }
-
-    public double get_maxUpperBand(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "upperBand");
-    }
-
-    public double get_maxMiddleBand(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "middleBand");
-    }
-
-    public double get_maxLowerBand(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "lowerBand");
-    }
-
-    public double get_maxStochastic(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "Stochastic");
-    }
-
-
-    public double getMinValue(String stock_name,  int timeperiod, Date endDate,String column) {
-        // Calculate start date in Java
+    public double getMinValue(String stock_name, int timeperiod, Date endDate, String column) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(endDate);
         cal.add(Calendar.DAY_OF_MONTH, -timeperiod);
@@ -488,8 +240,8 @@ public class JDBC_Manager {
                 " WHERE date <= ? AND date >= ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setDate(1, endDate);     // predata1 in your case
-            pstmt.setDate(2, startDate);   // endDate - timeperiod days
+            pstmt.setDate(1, endDate);
+            pstmt.setDate(2, startDate);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -497,6 +249,7 @@ public class JDBC_Manager {
                 }
             }
         } catch (SQLException e) {
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
             throw new RuntimeException(e);
         }
 
@@ -514,8 +267,8 @@ public class JDBC_Manager {
                 " WHERE date <= ? AND date >= ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setDate(1, date);      // End date
-            ps.setDate(2, startDate); // Start date (calculated)
+            ps.setDate(1, date);
+            ps.setDate(2, startDate);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -523,6 +276,7 @@ public class JDBC_Manager {
                 }
             }
         } catch (Exception e) {
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
             throw new RuntimeException(e);
         }
 
@@ -540,8 +294,8 @@ public class JDBC_Manager {
             return new java.sql.Date(parsedDate.getTime());
         } catch (ParseException e) {
 
-            System.err.println("Error parsing date string: " + dateString + ". Please use 'yyyy-MM-dd' format.");
-            throw new RuntimeException("Failed to parse date: " + dateString, e);
+            System.out.println(RED + "Error parsing date string: " + dateString + ". Please use 'yyyy-MM-dd' format." + RESET);
+            throw new RuntimeException();
         }
     }
 
@@ -556,7 +310,8 @@ public class JDBC_Manager {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving min date", e);
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            return null;
         }
     }
 
@@ -571,7 +326,8 @@ public class JDBC_Manager {
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving max date", e);
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            return null;
         }
     }
 
@@ -586,12 +342,9 @@ public class JDBC_Manager {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    // Return the found date
                     return rs.getDate(1);
                 }
             }
-
-
             return null;
 
         } catch (SQLException e) {
@@ -609,40 +362,23 @@ public class JDBC_Manager {
             if (rs.next()) {
                 return rs.getDouble(1);
             }
-            return Double.NaN; // No value found
+            return Double.NaN;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(RED + "SQL EXCEPTION " +e.getMessage()+" "+ e.getCause() + RESET);
+            return 0.0;
         }
     }
 
-
-    public double getOpenOnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "Open", date);
-    }
-
-    public double getHighOnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "High", date);
-    }
-
-    public double getLowOnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "Low", date);
-    }
 
     public double getCloseOnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "Close", date);
     }
 
-    public double getVolumeOnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "Volume", date);
-    }
 
     public double getVWAPOnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "VWAP", date);
     }
 
-    public double getTypicalPriceOnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "TypicalPrice", date);
-    }
 
     public double getSMA5OnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "SMA_5", date);
@@ -652,9 +388,6 @@ public class JDBC_Manager {
         return getColumnValueOnDate(stockName, "SMA_10", date);
     }
 
-    public double getSMA15OnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "SMA_15", date);
-    }
 
     public double getSMA50OnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "SMA_50", date);
@@ -674,10 +407,6 @@ public class JDBC_Manager {
 
     public double getEMA10OnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "EMA_10", date);
-    }
-
-    public double getEMA15OnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "EMA_15", date);
     }
 
     public double getEMA50OnDate(String stockName, Date date) {
@@ -724,50 +453,78 @@ public class JDBC_Manager {
         return getColumnValueOnDate(stockName, "Stochastic", date);
     }
 
-    public double get_minSMA_20Volume(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "SMA_20Volume");
-    }
-
-    public double get_maxSMA_20Volume(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "SMA_20Volume");
-    }
-
-    public double getSMA20VolumeOnDate(String stockName, Date date) {
-        return getColumnValueOnDate(stockName, "SMA_20Volume", date);
-    }
-
-    public double get_minVolDevNorm(String stock_name, int timeperiod, Date date) {
-        return getMinValue(stock_name, timeperiod, date, "VolDevNorm");
-    }
-
-    public double get_maxVolDevNorm(String stock_name, int timeperiod, Date date) {
-        return getMaxValue(stock_name, timeperiod, date, "VolDevNorm");
-    }
 
     public double getVolDevNormOnDate(String stockName, Date date) {
         return getColumnValueOnDate(stockName, "VolDevNorm", date);
     }
 
     public int getTradingDayCount(String stock) {
-        String sql = "SELECT COUNT(*) FROM "+stock;
+        String sql = "SELECT get_trading_day_count(?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
+            preparedStatement.setString(1, stock);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
             }
             return 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Error counting trading days", e);
+            System.out.println(RED+"Unable to Count Trading Days"+RESET);
+            throw new RuntimeException();
         }
     }
 
+        /*
+        CREATE TABLE IF NOT EXISTS portfolio_history (
+                                                 history_id SERIAL PRIMARY KEY,
+                                                 user_id VARCHAR(50) NOT NULL,
+                                                 stock VARCHAR(50) NOT NULL,
+                                                 action VARCHAR(10) NOT NULL, -- 'BUY', 'SELL', 'UPDATE'
+                                                 quantity_change INTEGER,
+                                                 price_per_share NUMERIC(20, 4),
+                                                 transaction_time TIMESTAMP WITH TIME ZONE DEFAULT NOW());
+         */
 
 
 
+    public Date calculateNextBusinessDay(Date currentDate) {
+        String sql = "SELECT calculate_next_business_day(?)";
 
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setDate(1, currentDate);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDate(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error calculating next business day", e);
+        }
+        return null;
+    }
+
+    public Connection getConnection() {
+        return  connection;
+    }
+
+    public int get_userid(String username) {
+        String sql = "SELECT userid FROM users WHERE username = ?";
+
+        // The try-with-resources block is fine, but the logic inside needs a fix.
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) { // Use the existing connection
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) { // <-- THIS IS THE FIX. Check if a result exists.
+                return rs.getInt("userid");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error getting userid: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return -1; // Return an invalid ID if not found
+    }
 }
-
-
-
-

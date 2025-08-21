@@ -5,11 +5,14 @@ import Stock_Predictor.JDBC.JDBC_Manager;
 import java.util.LinkedList;
 import java.util.List;
 
+import static Stock_Predictor.Color.RED;
+import static Stock_Predictor.Color.RESET;
+
 public class Stock {
 
     private final LinkedList<Stock_Data> stock_data = new LinkedList<>();
     private String name;
-    private JDBC_Manager jdbcManager = new JDBC_Manager();
+    private final JDBC_Manager jdbcManager = new JDBC_Manager();
 
     public Stock(String name) {
         this.name = name;
@@ -81,14 +84,25 @@ public class Stock {
             currentDayData.setVolDevNorm(DerivedIndicators.calculateNormalizedVolumeDeviation(historicalData, 20, 20));
 
             // Set official SQL Date
-            currentDayData.setOfficial_date(jdbcManager.toCall_Dataformatter(currentDayData.getDate()));
+            try {
+                currentDayData.setOfficial_date(jdbcManager.toCall_Dataformatter(currentDayData.getDate()));
+            } catch (Exception e) {
+                System.out.println(RED + "Unable to Set Date" + RESET);
+                throw new RuntimeException(e);
+            }
         }
     }
 
     void toPostgreSQL() {
-        jdbcManager.create_table_GeneralTable(name);
-        for (Stock_Data data : stock_data) {
-            jdbcManager.insert_StockData(name, data);
+
+        try {
+            jdbcManager.create_table_GeneralTable(name);
+            for (Stock_Data data : stock_data) {
+                jdbcManager.insert_StockData(name, data);
+            }
+        } catch (Exception e) {
+            System.out.println(RED + "SQL Exception: " + e.getCause() + RESET);
+            throw new RuntimeException(e);
         }
     }
 }

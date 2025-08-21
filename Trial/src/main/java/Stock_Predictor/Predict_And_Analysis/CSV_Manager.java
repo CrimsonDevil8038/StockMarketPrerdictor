@@ -7,10 +7,11 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.util.*;
 
+import static Stock_Predictor.Color.*;
+
 public class CSV_Manager {
 
     private final HashMap<String, Stock> stockHashMap = new HashMap<>();
-    DerivedIndicators derivedIndicators = new DerivedIndicators();
 
     public void readCSV(String path, String name) {
 
@@ -43,17 +44,15 @@ public class CSV_Manager {
             Collections.reverse(stock.getStock_data());
             stock.calculate_();
             stock.toPostgreSQL();
-//            stock.to_recalculate();
             stockHashMap.put(name, stock);
 
 
         } catch (FileNotFoundException e) {
-
-            throw new RuntimeException(e);
-
+            System.out.println(RED + "File Not Found" + RESET);
         } catch (IOException e) {
-
-            throw new RuntimeException(e);
+            System.out.println(RED + "IO Exception " + e.getCause() + RESET);
+        } catch (Exception e) {
+            System.out.println(RED + "Error Processing .... " + e.getCause() + RESET);
         }
 
 
@@ -83,7 +82,7 @@ public class CSV_Manager {
                 {"Open", "Open ", "Opening Price", "O", "Open Price"},
                 {"High", "High ", "Day High", "High Price"},
                 {"Low", "Low ", "Day Low", "Low Price"},
-                {"Close", "Close ", "Closing Price", "C", "Close Price","Close/Last"},
+                {"Close", "Close ", "Closing Price", "C", "Close Price", "Close/Last"},
                 {"Volume", "Shares Traded", "Volume ", "Shares Traded ", "No.of Shares", "Total Traded Quantity", "Traded Qty", "Qty", "Shares Traded", "Total Volume", "Volume Traded", "Traded Volume"}
         };
         int z = 0;
@@ -111,4 +110,3 @@ public class CSV_Manager {
     }
 
 }
-

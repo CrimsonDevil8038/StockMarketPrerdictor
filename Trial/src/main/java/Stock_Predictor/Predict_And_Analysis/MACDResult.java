@@ -1,8 +1,7 @@
 package Stock_Predictor.Predict_And_Analysis;
 
 public class MACDResult {
-    private static final long serialVersionUID = 5;
-    private final double macdLine;
+    final double macdLine;
     private final double signalLine;
 
     public MACDResult(double macdLine, double signalLine) {

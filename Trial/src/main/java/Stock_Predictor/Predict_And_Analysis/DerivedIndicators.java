@@ -29,10 +29,9 @@ public class DerivedIndicators {
 
     public static double calculateSMA(List<Stock_Data> data, int period) {
         if (data == null || data.size() < period) {
-            return 0.0; // Not enough data
+            return 0.0;
         }
 
-        // Get the most recent data points without modifying the original list
         List<Stock_Data> recentData = data.subList(data.size() - period, data.size());
 
         double sum = 0.0;
@@ -46,7 +45,7 @@ public class DerivedIndicators {
 
     public static double calculateSMA_volume(List<Stock_Data> data, int period) {
         if (data == null || data.size() < period) {
-            return 0.0; // Not enough data
+            return 0.0;
         }
 
 
@@ -99,7 +98,7 @@ public class DerivedIndicators {
         if (prices.size() < period) return 0.0;
 
         double sum = 0;
-        for(int i = 0; i < period; i++) {
+        for (int i = 0; i < period; i++) {
             sum += prices.get(i);
         }
         double ema = sum / period;
@@ -133,7 +132,6 @@ public class DerivedIndicators {
         double avgLoss = totalLoss / period;
 
 
-
         if (avgLoss == 0) {
             return 100.0;
         }
@@ -144,7 +142,7 @@ public class DerivedIndicators {
 
     public static MACDResult calculateMACD(List<Stock_Data> data) {
         if (data == null || data.size() < 26) {
-            return new MACDResult(0.0, 0.0); // Not enough data
+            return new MACDResult(0.0, 0.0);
         }
 
         List<Double> closePrices = data.stream().map(Stock_Data::getClose).collect(Collectors.toList());
@@ -153,9 +151,9 @@ public class DerivedIndicators {
         double ema26 = calculateEMAFromPrices(closePrices, 26);
         double macdLine = ema12 - ema26;
 
-        // To calculate the signal line, we need a history of MACD values
+
         ArrayList<Double> macdHistory = new ArrayList<>();
-        if (data.size() >= 35) { // 26 for first MACD + 9 for first signal line
+        if (data.size() >= 35) {
             for (int i = 26; i <= data.size(); i++) {
                 List<Double> sublist = closePrices.subList(0, i);
                 double shortEma = calculateEMAFromPrices(sublist, 12);
