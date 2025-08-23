@@ -26,7 +26,7 @@ public class AccountManager {
     private boolean check_Password(String password) {
 
         if (password.length()<8) {
-            System.out.println("Please Enter Password of Minimum of 8 Length");
+            System.out.println(RED+"Please Enter Password of Minimum of 8 Length"+RESET);
         }
         return (password.length() >= 8);
     }
@@ -94,10 +94,14 @@ public class AccountManager {
     }
 
     public void data() {
-
+    int count = 0;
         try {
             String usename = "";
             do {
+                count++;
+                if (count>1){
+                    System.out.println(RED+"Enter Valid Name"+RESET);
+                }
                 System.out.print("Enter First Name: ");
                 String fname = scanner.next();
 
@@ -106,30 +110,45 @@ public class AccountManager {
 
                 usename = fname + " " + sname;
 
+
             } while (!check_UserName(usename));
 
             String aadharcad = "";
+            count = 0;
             do {
+                count++;
+                if (count>1) {
+                    System.out.println(RED + "Enter Valid Aadhar Card" + RESET);
+                }
                 System.out.print("Enter Aadhar Card: ");
                 aadharcad = scanner.next();
 
             } while (!check_AadharCard(aadharcad));
 
             String pancard = "";
+            count = 0;
             do {
-
+                count++;
+                if (count>1) {
+                    System.out.println(RED + "Enter Valid PanCard" + RESET);
+                }
                 System.out.print("Enter PanCard: ");
                 pancard = scanner.next();
             } while (!check_PanCard(pancard));
 
             String mobile = "";
+            count = 0;
             do {
-
+                count++;
+                if (count>1) {
+                    System.out.println(RED + "Enter Valid Mobile Number" + RESET);
+                }
                 System.out.print("Enter Mobile: ");
                 mobile = scanner.next();
             } while (!check_Mobile(mobile));
 
             String password = "";
+
             do {
 
                 System.out.print("Enter Password: ");

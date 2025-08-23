@@ -48,9 +48,9 @@ class LinkedList {
             return;
         }
         Node temp = head;
-        System.out.println(GREEN+"\n--- Your Portfolio ---"+GREEN);
+        System.out.println(GREEN+"\n--- Your Portfolio ---"+RESET);
         while (temp != null) {
-            System.out.println("=========================================================================");
+            System.out.println(GREEN+"========================================================================="+RESET);
 
             String format1 = BLUE+"%-16s %-15s %-16s %-15d %-16s %-15.2f\n"+RESET;
             System.out.printf(format1,
@@ -65,6 +65,14 @@ class LinkedList {
             System.out.printf(format2,
                     "Prediction Date:", temp.predictionDate,
                     "Prediction Price:", temp.predictedprice);
+
+            if((temp.currentprice< temp.purchaseprice)){
+                System.out.println(RED+"Loss: "+(temp.purchaseprice-temp.currentprice)+RESET);
+            }
+            else {
+                System.out.println(GREEN+"Profit: "+(temp.currentprice - temp.purchaseprice)+RESET);
+            }
+
             temp = temp.next;
         }
     }

@@ -122,10 +122,10 @@ public class DataPreparation {
                 weights[i] = (Math.random() - 0.5) * 0.001;
             }
 
-            System.out.println("Training next-day prediction model...");
-            System.out.println("Training samples: " + (train_data_size - 41));
-            System.out.println("Validation samples: " + (val_data - 1));
-            System.out.println("Test samples: " + (test_data - 1));
+//            System.out.println("Training next-day prediction model...");
+//            System.out.println("Training samples: " + (train_data_size - 41));
+//            System.out.println("Validation samples: " + (val_data - 1));
+//            System.out.println("Test samples: " + (test_data - 1));
 
 
             Date currentDate = addBusinessDays(startDate, 40);
@@ -243,7 +243,7 @@ public class DataPreparation {
                 if (epoch % 25 == 0) {
                     double trainMse = calculateMSE(x_train, y_train, weights, bias);
                     double valMse = calculateMSE(x_val, y_val, weights, bias);
-                    System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
+//                    System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
 
                     if (valMse < bestValLoss) {
                         bestValLoss = valMse;
@@ -263,7 +263,7 @@ public class DataPreparation {
             System.arraycopy(bestWeights, 0, weights, 0, n);
             bias = bestBias;
         double testMse = calculateMSE(x_test, y_test, weights, bias);
-        System.out.println("Final Test MSE (on price % change): " + testMse);
+//        System.out.println("Final Test MSE (on price % change): " + testMse);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -403,11 +403,11 @@ public class DataPreparation {
             x_test= new double[test_size][numFeatures];
             y_test= new double[test_size];
 
-            System.out.println("Training long-term prediction model...");
-            System.out.println("Prediction horizon: " + predictionHorizon + " business days");
-            System.out.println("Training samples: " + train_size);
-            System.out.println("Validation samples: " + val_size);
-            System.out.println("Test samples: " + test_size);
+//            System.out.println("Training long-term prediction model...");
+//            System.out.println("Prediction horizon: " + predictionHorizon + " business days");
+//            System.out.println("Training samples: " + train_size);
+//            System.out.println("Validation samples: " + val_size);
+//            System.out.println("Test samples: " + test_size);
 
 
             Date currentDate = addBusinessDays(startDate, 200);
@@ -471,7 +471,7 @@ public class DataPreparation {
     public void gradientDescent_long_term(int epochs) {
         int m = x_train.length;
         if (m == 0) {
-            System.err.println("No training data available for long-term model.");
+            System.out.println(RED+"No training data available for long-term model."+RESET);
             return;
         }
         int n = weights.length;
@@ -509,7 +509,7 @@ public class DataPreparation {
             if (epoch % 50 == 0) {
                 double trainMse = calculateMSE(x_train, y_train, weights, bias);
                 double valMse = calculateMSE(x_val, y_val, weights, bias);
-               System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
+//               System.out.println("Epoch " + epoch + " | Train MSE: " + String.format("%.8f", trainMse) + " | Val MSE: " + String.format("%.8f", valMse));
 
                 if (valMse < bestValLoss) {
                     bestValLoss = valMse;

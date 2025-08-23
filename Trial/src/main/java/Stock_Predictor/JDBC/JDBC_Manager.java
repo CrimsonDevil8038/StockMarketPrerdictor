@@ -24,10 +24,10 @@ public class JDBC_Manager {
                     ",lastlogin TIMESTAMP);";
 
 
-            String portfolio_history = "CREATE TABLE IF NOT EXISTS portfolio_history (\n" +
+            String portfolio_history = "CREATE TABLE IF NOT EXISTS portfolio_history (" +
                     " history_id SERIAL PRIMARY KEY," +
-                    " user_id VARCHAR(50) NOT NULL," +
-                    " stock VARCHAR(50) NOT NULL," +
+                    " user_id  INTEGER NOT NULL," +
+                    "stock_name VARCHAR(50) NOT NULL," +
                     " action VARCHAR(10) NOT NULL," +
                     " quantity_change INTEGER," +
                     " price_per_share NUMERIC(20, 4)," +

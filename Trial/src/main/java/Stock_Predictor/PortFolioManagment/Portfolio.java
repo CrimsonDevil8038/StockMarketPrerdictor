@@ -56,9 +56,16 @@ public class Portfolio {
     }
 
     public void addPortfolio(String stockName, long quantity, double purchasePrice) {
+
         String sql = "INSERT INTO User_Portfolio (userid, stock_name, quantity, purchase_price) VALUES (?, ?, ?, ?) " +
                 "ON CONFLICT (userid, stock_name) DO UPDATE SET quantity = User_Portfolio.quantity + EXCLUDED.quantity";
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            if (quantity<=0) {
+                System.out.println(RED+"Cannot Add Stock Shares less than or equal to 0"+RESET);
+                return;
+            }
             pstmt.setInt(1, userid);
             pstmt.setString(2, stockName);
             pstmt.setLong(3, quantity);
@@ -77,6 +84,7 @@ public class Portfolio {
         long newQuantity = linkedList.sellShares(stockName, quantityToSell);
 
         if (newQuantity < 0) {
+            System.out.println(RED+"Cannot Sell Stock Shares less than or equal to 0"+RESET);
             return;
         }
 

@@ -23,7 +23,6 @@ public class Main {
     static void basic() {
         jdbcManager.create_Rest();
 
-
     }
 
 
@@ -88,7 +87,7 @@ public class Main {
 
                 default: {
                     System.out.println(RED + "Enter Valid Value" + RESET);
-                }
+              }
 
             }
 
@@ -176,7 +175,7 @@ public class Main {
                     System.out.println();
                 }
                 default: {
-                    System.err.println("Enter Valid Value");
+                    System.out.println(RED+"Enter Valid Value"+RESET);
                 }
 
             }
