@@ -39,7 +39,7 @@ public class Main {
         do {
             System.out.println("Press 1 to Signup");
             System.out.println("Press 2 to Signin");
-            System.out.println(RED + "Press 3 to Exit" + RESET);
+            System.out.println(RED + "Press 3 to Exit System" + RESET);
 
 
             try {
@@ -101,7 +101,7 @@ public class Main {
             System.out.println("Press 1 for Predict and Analysis");
             System.out.println("Press 2 for Monitor Shares From Portfolio");
             System.out.println("Press 3 for Add/Remove Shares From Portfolio ");
-            System.out.println(RED + "Press 4  to Exit" + RESET);
+            System.out.println(RED + "Press 4  to Exit Submenu" + RESET);
             try {
                 System.out.print(BLUE + "Enter Choice: " + RESET);
                 n = scanner.nextInt();
@@ -118,7 +118,7 @@ public class Main {
                     do {
                         System.out.println("Press 1 to Import New Stock Value");
                         System.out.println("Press 2 to Prediction");
-                        System.out.println(RED + "Press 3 to Exit" + RESET);
+                        System.out.println(RED + "Press 3 to Exit Submenu" + RESET);
                         try {
                             System.out.print(BLUE + "Enter Choice: " + RESET);
                             m = scanner.nextInt();
@@ -188,7 +188,7 @@ public class Main {
         int n;
         do {
             System.out.println("Press 1 to Add Data");
-            System.out.println(RED + "Press 2 to Exit" + RESET);
+            System.out.println(RED + "Press 2 to Exit Submenu" + RESET);
             try {
                 System.out.print("Enter Choice: ");
                 n = scanner.nextInt();
@@ -236,7 +236,7 @@ public class Main {
             System.out.println("Select Prediction Model:");
             System.out.println("Press 1 Short-Term (Predict next day's price)");
             System.out.println("Press 2 Long-Term (Predict price in the future)");
-            System.out.println(RED + "Press 3 to Exit" + RESET);
+            System.out.println(RED + "Press 3 to Exit Submenu" + RESET);
             try {
                 System.out.print(BLUE + "Enter choice: " + RESET);
                 modelChoice = scanner.nextInt();
@@ -360,21 +360,21 @@ public class Main {
                         jdbcManager.Stock_tables();
                     } catch (Exception e) {
                         System.out.println(RED + "Error: Could not retrieve stock list." + RESET);
-                        break; // Exit if we can't show the list
+                        break;
                     }
 
                     System.out.print("Enter Stock Name to Buy: ");
                     String stockName = scanner.next();
                     String tableName = "stock_" + stockName.toLowerCase();
 
-                    // This is your key validation check
+
                     if (!jdbcManager.check(tableName)) {
                         System.out.println(RED + "\nError: No data found for stock '" + stockName + "'." + RESET);
                         System.out.println(YELLOW + "Please import its data from the 'Predict and Analysis' menu first." + RESET);
-                        break; // Stop the process if the stock data doesn't exist
+                        break;
                     }
 
-                    // If the check passes, we continue
+                   
                     System.out.print("Enter Quantity: ");
                     long quantity = scanner.nextLong();
                     System.out.print("Enter Purchase Price per Share: ");
