@@ -527,4 +527,26 @@ public class JDBC_Manager {
         }
         return -1; // Return an invalid ID if not found
     }
+
+
+    public void displayMinAndMaxDateAndClose(String stockName) {
+        String tablename = "stock_"+stockName.toLowerCase();
+       String maxsql = "Select close,date from "+ tablename+" where  close  = (Select max(close) from "+tablename+")";
+        String minsql = "Select close,date from "+ tablename+" where  close  = (Select min(close) from "+tablename+")";
+
+        try {
+            Statement st = connection.createStatement();
+            ResultSet getmax = st.executeQuery(maxsql);
+            getmax.next();
+            System.out.println("Max Value: "+getmax.getString(1)+" Date: "+getmax.getString(2));
+
+            ResultSet getmin = st.executeQuery(minsql);
+            getmin.next();
+            System.out.println("Min Value: "+getmin.getString(1)+" Date: "+getmin.getString(2));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

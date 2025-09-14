@@ -142,7 +142,6 @@ public class Main {
                                 break;
                             }
                             case 3: {
-
                                 System.out.println(ORANGE + "Exiting Submenu" + RESET);
                                 break;
                             }
@@ -173,9 +172,11 @@ public class Main {
                     System.out.println();
                     System.out.println(RED+ "Exiting Submenu" + RESET);
                     System.out.println();
+                    break;
                 }
                 default: {
                     System.out.println(RED+"Enter Valid Value"+RESET);
+                    break;
                 }
 
             }
@@ -374,7 +375,7 @@ public class Main {
                         break;
                     }
 
-                   
+
                     System.out.print("Enter Quantity: ");
                     long quantity = scanner.nextLong();
                     System.out.print("Enter Purchase Price per Share: ");

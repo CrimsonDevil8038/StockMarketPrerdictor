@@ -27,7 +27,7 @@ public class CSV_Manager {
 
             for (CSVRecord record : records) {
                 List<Map.Entry<String, Integer>> entries = new ArrayList<>(selectedHeader.entrySet());
-                Collections.sort(entries, Comparator.comparing(Map.Entry::getValue));
+                entries.sort(Comparator.comparing(Map.Entry::getValue));
                 int i = 0;
                 String[] key_values = new String[entries.size()];
                 for (Map.Entry<String, Integer> e : entries) {
@@ -65,8 +65,6 @@ public class CSV_Manager {
             CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(bufferedReader);
             headerMap = csvParser.getHeaderMap();
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
